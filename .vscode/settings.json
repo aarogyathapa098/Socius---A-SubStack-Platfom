@@ -1,0 +1,11 @@
+{
+  "java.project.sourcePaths": [
+    "Socius/src"
+  ],
+  "java.project.outputPath": "bin",
+  "java.project.referencedLibraries": [
+    "C:/Users/upash/.p2/pool/plugins/jakarta.servlet-api_6.1.0.jar",
+    "C:/Users/upash/.p2/pool/plugins/jakarta.servlet.jsp_3.0.0.v20210105-0527.jar",
+    "C:/Users/upash/Downloads/mysql-connector-j-9.6.0/mysql-connector-j-9.6.0/mysql-connector-j-9.6.0.jar"
+  ]
+}

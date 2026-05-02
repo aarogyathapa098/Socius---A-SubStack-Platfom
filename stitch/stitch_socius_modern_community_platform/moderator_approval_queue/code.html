@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Moderator Queue | CivicPulse</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#251818",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#fbe3e1",
+                        "inverse-primary": "#ffb3ae",
+                        "tertiary-container": "#00596b",
+                        "primary-container": "#9b2226",
+                        "surface-container-highest": "#f5dddb",
+                        "surface-bright": "#fff8f7",
+                        "on-primary-fixed-variant": "#8c161d",
+                        "on-tertiary-fixed-variant": "#004e5e",
+                        "surface-tint": "#ad3031",
+                        "secondary-container": "#e2dfde",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#251818",
+                        "on-secondary-fixed-variant": "#474746",
+                        "on-primary-container": "#ffb0ab",
+                        "on-tertiary-fixed": "#001f27",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "tertiary": "#00404e",
+                        "tertiary-fixed": "#b1ecff",
+                        "surface-dim": "#ecd5d3",
+                        "secondary": "#5f5e5e",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#ffe9e7",
+                        "surface-container-low": "#fff0ef",
+                        "on-surface-variant": "#58413f",
+                        "on-secondary-fixed": "#1b1b1c",
+                        "inverse-on-surface": "#ffedeb",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#8ed0e5",
+                        "outline": "#8c716e",
+                        "primary-fixed-dim": "#ffb3ae",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-container": "#636262",
+                        "background": "#fff8f7",
+                        "primary": "#7a0412",
+                        "surface-variant": "#f5dddb",
+                        "inverse-surface": "#3b2d2c",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#e0bfbc",
+                        "on-error": "#ffffff",
+                        "surface": "#fff8f7",
+                        "on-tertiary-container": "#8ccee3",
+                        "primary-fixed": "#ffdad7",
+                        "on-primary-fixed": "#410005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "24px",
+                        "margin-edge": "32px",
+                        "unit": "8px",
+                        "stack-lg": "48px",
+                        "container-max": "1120px",
+                        "gutter": "24px",
+                        "stack-sm": "12px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Newsreader"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Newsreader"],
+                        "body-md": ["Inter"],
+                        "display-xl": ["Newsreader"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                        "label-sm": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "display-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #fff8f7;
+            color: #251818;
+        }
+    </style>
+</head>
+<body class="antialiased">
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-8 h-16 bg-white border-b border-stone-200">
+<div class="flex items-center gap-margin-edge max-w-[1120px] w-full mx-auto justify-between">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-serif italic text-[#9B2226]">CivicPulse</span>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="font-serif text-stone-500 dark:text-stone-400 hover:text-stone-900 duration-200 ease-in-out" href="#">Dashboard</a>
+<a class="font-serif text-[#9B2226] border-b-2 border-[#9B2226] pb-1 duration-200 ease-in-out" href="#">Review Queue</a>
+<a class="font-serif text-stone-500 dark:text-stone-400 hover:text-stone-900 duration-200 ease-in-out" href="#">Communities</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex gap-2">
+<button class="p-2 text-stone-500 hover:bg-stone-50 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-stone-500 hover:bg-stone-50 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+</button>
+</div>
+<img alt="User profile menu" class="w-8 h-8 rounded-full border border-stone-200" data-alt="close up professional portrait of a woman in business attire with a neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbZ3XHjY_fN3GUZCJAEylr3qpwmRHU19CxQ6HOKtoFacikhHhR-IGXdxPr71rW64wyQFNc7dQPt9cRruJEd8jqiaKydbHoewi1Ds5MuH2m7-j9-EOVVL3bSID9vSO5BdrQ4aQhrXDp_53F06HvqUyQdg66RSx16vxY43kBBHwEAl4QJybFskVmSNRDYXVbT2awxFQDWelGgGPldjYlJGmz3Snuq7n03O8L6XyBnIbQvFUhPSv5Y5TXgs9mWvVpruYilbfkxg"/>
+</div>
+</div>
+</header>
+<div class="max-w-[1120px] mx-auto flex">
+<!-- SideNavBar Shell -->
+<aside class="hidden lg:flex flex-col fixed left-[calc(50%-560px)] top-16 h-[calc(100vh-64px)] w-64 p-4 space-y-2 bg-stone-50 border-r border-stone-200">
+<div class="mb-8 px-2 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-[#9B2226] rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<h2 class="font-serif font-bold text-[#9B2226] leading-none">Community Hub</h2>
+<p class="text-xs text-stone-500 font-medium mt-1">Governance Portal</p>
+</div>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-stone-600 hover:bg-stone-100 transition-all duration-150 font-sans text-sm font-medium rounded-md" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-stone-600 hover:bg-stone-100 transition-all duration-150 font-sans text-sm font-medium rounded-md" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="groups">groups</span>
+                    Communities
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-stone-600 hover:bg-stone-100 transition-all duration-150 font-sans text-sm font-medium rounded-md" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="article">article</span>
+                    Posts
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 bg-stone-200 text-[#9B2226] font-semibold rounded-md transition-all duration-150 font-sans text-sm" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="rule">rule</span>
+                    Review Queue
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-stone-600 hover:bg-stone-100 transition-all duration-150 font-sans text-sm font-medium rounded-md" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="history">history</span>
+                    Audit Log
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-stone-600 hover:bg-stone-100 transition-all duration-150 font-sans text-sm font-medium rounded-md" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="settings">settings</span>
+                    Settings
+                </a>
+</nav>
+<div class="pt-stack-lg mt-auto">
+<button class="w-full flex items-center justify-center gap-2 bg-[#9B2226] text-white py-3 rounded-lg font-sans text-sm font-semibold hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-lg" data-icon="add">add</span>
+                    New Proposal
+                </button>
+<div class="mt-8 border-t border-stone-200 pt-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-stone-500 hover:text-stone-900 font-sans text-sm" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="help">help</span>
+                        Help Center
+                    </a>
+<a class="flex items-center gap-3 px-3 py-2 text-stone-500 hover:text-stone-900 font-sans text-sm" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="shield">shield</span>
+                        Privacy
+                    </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 lg:ml-64 pt-24 pb-stack-lg px-gutter max-w-full">
+<header class="mb-stack-lg">
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">Moderator Review Queue</h1>
+<p class="font-body-md text-body-md text-secondary">Review pending contributions and maintain community standards for <span class="font-semibold">Urban Planning Collective</span>.</p>
+</header>
+<!-- Stats Bar -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-stack-lg">
+<div class="bg-surface-container-low p-6 rounded-lg border border-outline-variant">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Pending Posts</span>
+<p class="font-display-xl text-display-xl text-primary mt-1">24</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-lg border border-outline-variant">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Avg. Response Time</span>
+<p class="font-display-xl text-display-xl text-on-surface mt-1">12m</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-lg border border-outline-variant">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Queue Priority</span>
+<p class="font-display-xl text-display-xl text-tertiary-container mt-1">Normal</p>
+</div>
+</div>
+<!-- Queue List -->
+<section class="space-y-6">
+<!-- Review Card 1 -->
+<article class="bg-white border border-stone-200 rounded-lg p-stack-md flex flex-col md:flex-row gap-6 hover:border-primary-container transition-colors duration-200 group">
+<div class="w-full md:w-48 h-32 flex-shrink-0 bg-stone-100 rounded-lg overflow-hidden">
+<img alt="Urban planning proposal image" class="w-full h-full object-cover" data-alt="Modern architectural rendering of a pedestrian-friendly city street with lush trees and cyclists at sunrise" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY821gHKCsAdaNDCkWyOkpSAwjfD4xTTQdEYvsYFhgdhpMIrm9fxcLo-_qP_LpMagDvtV7NOY_20ZK5I6gcMKr6pPePgMXSGccR9tlGbIYJ88reuNwAHP45ouEZBweAPPH1g6ZNsSXClTLFCN6lduZ9TGF4lPbH4UgsKs0_I_UlSEpy7V6zvCCzwndoT8AlvqJTvwNaVBaboJGAepUER4bkdTQ9o2E8L80NlhQ_-1SUmdgV60Qfu9fHO3bsYi94a0D7eFudQ"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<span class="px-2 py-0.5 bg-yellow-50 text-yellow-700 text-[10px] font-bold uppercase tracking-widest rounded border border-yellow-100">Pending Review</span>
+<span class="font-label-sm text-label-sm text-stone-400">Submitted 14 mins ago</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Proposal for Green Roof Initiative in Ward 4</h3>
+<div class="flex items-center gap-3 mb-3">
+<img alt="Julian Chen" class="w-5 h-5 rounded-full" data-alt="portrait of a young man with glasses and a friendly smile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8bYo3iIVCKLHkefZfSWkjDrZ4Mj8UzDJ4BL9RRhATAtx1rA8rJx0j12NOOAVqoo6LnEWmAiO5X4b1cJLzlnLhITGcLzP3l8loNFtxrjiip-hAm8SNLc2_7VckObAbTNzsAKUJPZgI7FfU38HBNNO-InkUbK5XpYGLE7zjEYkXfk-JmS6yGUmMDzij5amoehx8YoYgpt8w32HWp0nnDOkaSSuG-_YWCgS-9NtvzjE1KXvJEUrK2KzlDOjPAmXORCK1vjppDw"/>
+<span class="font-label-sm text-label-sm text-stone-600">Julian Chen</span>
+<span class="w-1 h-1 bg-stone-300 rounded-full"></span>
+<span class="font-label-sm text-label-sm text-[#9B2226]">Sustainability &amp; Infrastructure</span>
+</div>
+<p class="font-body-md text-body-md text-stone-600 line-clamp-2 italic">"We suggest mandated rooftop gardens for all new commercial developments exceeding 2,000sqm to combat the urban heat island effect..."</p>
+</div>
+<div class="mt-6 pt-6 border-t border-stone-100 flex flex-col gap-4">
+<div class="flex flex-wrap gap-3 items-center">
+<button class="px-6 py-2 bg-[#9B2226] text-white rounded-lg font-label-sm flex items-center gap-2 hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span>
+                                    Approve Post
+                                </button>
+<button class="px-6 py-2 bg-white border border-stone-300 text-on-error-container rounded-lg font-label-sm flex items-center gap-2 hover:bg-stone-50 transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="cancel">cancel</span>
+                                    Reject
+                                </button>
+<div class="flex-1 min-w-[240px]">
+<textarea class="w-full h-10 px-3 py-2 text-sm border-stone-200 border rounded-lg focus:ring-1 focus:ring-[#9B2226] focus:border-[#9B2226] resize-none transition-all focus:h-20 font-sans" placeholder="Reason for rejection (optional)..."></textarea>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- Review Card 2 -->
+<article class="bg-white border border-stone-200 rounded-lg p-stack-md flex flex-col md:flex-row gap-6 hover:border-primary-container transition-colors duration-200 group">
+<div class="w-full md:w-48 h-32 flex-shrink-0 bg-stone-100 rounded-lg overflow-hidden">
+<img alt="Public transport image" class="w-full h-full object-cover" data-alt="Close up of a modern blue city bus reflecting city lights during the blue hour in a dense urban environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpRJLNRox2omZq4tf-kQ0TqsL2fLoVmOgpNM1j90Bww58o_yx7AWvR-Rezsq-SrWCdKYI7jc_pp2tPh9BweKjiM9FhZXP193B_2-cNplqawZafEXYQ3l9dWDN7uE5AIv7duqSE-W2BjRTYS8ylhZS7rPbTcNYUw7ugsc29rTQFe4pA1ivsJmYXAZw0G_YYTWsUnvSMQpMGIefeqThI2_e3gh4GKpi7-6MOkMtZzAJCYabkOYV5FM7Q6IyhWsR1HEp5cM_ahA"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<span class="px-2 py-0.5 bg-yellow-50 text-yellow-700 text-[10px] font-bold uppercase tracking-widest rounded border border-yellow-100">Pending Review</span>
+<span class="font-label-sm text-label-sm text-stone-400">Submitted 32 mins ago</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Expanding the Night-Bus Network: A Security Analysis</h3>
+<div class="flex items-center gap-3 mb-3">
+<img alt="Sarah Miller" class="w-5 h-5 rounded-full" data-alt="portrait of a woman with curly hair looking directly into the camera" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC6e8OEh_823B2vNnvVMtsxDuZ9ejcl4_Pg2p6p547wgfBSuZPqE98AUCV-EnILmNBgqCavhtyYUM54vkc-jjem4evBU0ARyrXKQ0LkuCcwCVtzClSqVfV7_gBXr08Zrit0wa3l-tYYyd3JkjHbeYfBijGan1GMJjUigxGrwvX_zd7OiloPcCV8q947nXuahF9rqk5yrQTRrsJWDFRsHCW25FrCxZd19bT01xtwZcZIGSdcklO_KBWrxe5rQBOaT3WCiSn1g"/>
+<span class="font-label-sm text-label-sm text-stone-600">Sarah Miller</span>
+<span class="w-1 h-1 bg-stone-300 rounded-full"></span>
+<span class="font-label-sm text-label-sm text-[#9B2226]">Transit Safety</span>
+</div>
+<p class="font-body-md text-body-md text-stone-600 line-clamp-2 italic">"Current data suggests a 40% gap in service between 1 AM and 5 AM. This disproportionately affects hospitality workers..."</p>
+</div>
+<div class="mt-6 pt-6 border-t border-stone-100 flex flex-col gap-4">
+<div class="flex flex-wrap gap-3 items-center">
+<button class="px-6 py-2 bg-[#9B2226] text-white rounded-lg font-label-sm flex items-center gap-2 hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span>
+                                    Approve Post
+                                </button>
+<button class="px-6 py-2 bg-white border border-stone-300 text-on-error-container rounded-lg font-label-sm flex items-center gap-2 hover:bg-stone-50 transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="cancel">cancel</span>
+                                    Reject
+                                </button>
+<div class="flex-1 min-w-[240px]">
+<textarea class="w-full h-10 px-3 py-2 text-sm border-stone-200 border rounded-lg focus:ring-1 focus:ring-[#9B2226] focus:border-[#9B2226] resize-none transition-all focus:h-20 font-sans" placeholder="Reason for rejection (optional)..."></textarea>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- Review Card 3 -->
+<article class="bg-white border border-stone-200 rounded-lg p-stack-md flex flex-col md:flex-row gap-6 hover:border-primary-container transition-colors duration-200 group">
+<div class="w-full md:w-48 h-32 flex-shrink-0 bg-stone-100 rounded-lg overflow-hidden">
+<img alt="Community garden" class="w-full h-full object-cover" data-alt="Overhead view of several people gardening in community allotments with vibrant vegetables and dark soil" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZn-43VukY4XItopN6gUrThtKVUmuzq-_7UmQCch-Y59msIk7KcLMzk_bmCN11zB1azX3tqPS7E8TK_SnDvb8zCLz27ygQgn1A9xR8Qbvyrt4kls6NP0X9g3-9s2ZvgSN_XnI82kLzk-CgYQifXOZ3dWoZkk4d9eB0cz4_3sdzA71jib1d6RAdrHSIhDQR8TZS1PLprxgGh_TEDfqt5HjRLR6DMIoge7GECDJD3UwcQdl8MzTOF7LkzPKFv1oG8FJL5e-Xmg"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<span class="px-2 py-0.5 bg-yellow-50 text-yellow-700 text-[10px] font-bold uppercase tracking-widest rounded border border-yellow-100">Pending Review</span>
+<span class="font-label-sm text-label-sm text-stone-400">Submitted 1 hour ago</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Requesting Seed Funding for 'The Local Patch' Garden</h3>
+<div class="flex items-center gap-3 mb-3">
+<img alt="Marcus Aurelius" class="w-5 h-5 rounded-full" data-alt="portrait of an older man with gray hair and a kind expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_RVBKMX20yaJkk36KPW0-yxhmj96jeU_HWTKk2aA4YI-_NdheSPet52ehApV811Zsi3r4uIVDiqOmmauifcc4xQMcK_zm157i0JuwKM3ieOVXYusMbed6YFvCcGDrOYWXGxB5dgu0c3i2uwiD7GWuemfpsmpm8HG56XkOAEFpfQdt3TqEWMCmMztKIv4T1w0ObsA2Dfw7kJGyVKGJqFyYN3e4LVWgAXynxIbKKV15nWqEdF1b0rG088sdrz2A6Bc_lo5BeQ"/>
+<span class="font-label-sm text-label-sm text-stone-600">Marcus Wright</span>
+<span class="w-1 h-1 bg-stone-300 rounded-full"></span>
+<span class="font-label-sm text-label-sm text-[#9B2226]">Community Grants</span>
+</div>
+<p class="font-body-md text-body-md text-stone-600 line-clamp-2 italic">"Transforming the vacant lot on Elm St into a collective growing space will yield approximately 400kg of produce per year..."</p>
+</div>
+<div class="mt-6 pt-6 border-t border-stone-100 flex flex-col gap-4">
+<div class="flex flex-wrap gap-3 items-center">
+<button class="px-6 py-2 bg-[#9B2226] text-white rounded-lg font-label-sm flex items-center gap-2 hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span>
+                                    Approve Post
+                                </button>
+<button class="px-6 py-2 bg-white border border-stone-300 text-on-error-container rounded-lg font-label-sm flex items-center gap-2 hover:bg-stone-50 transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="cancel">cancel</span>
+                                    Reject
+                                </button>
+<div class="flex-1 min-w-[240px]">
+<textarea class="w-full h-10 px-3 py-2 text-sm border-stone-200 border rounded-lg focus:ring-1 focus:ring-[#9B2226] focus:border-[#9B2226] resize-none transition-all focus:h-20 font-sans" placeholder="Reason for rejection (optional)..."></textarea>
+</div>
+</div>
+</div>
+</div>
+</article>
+</section>
+<!-- Pagination/Footer Actions -->
+<div class="mt-stack-lg border-t border-stone-200 pt-8 flex justify-between items-center">
+<p class="font-label-sm text-label-sm text-stone-500 italic">Displaying 3 of 24 pending items</p>
+<div class="flex gap-4">
+<button class="px-4 py-2 text-stone-500 hover:text-stone-900 font-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-base" data-icon="chevron_left">chevron_left</span>
+                        Previous
+                    </button>
+<button class="px-4 py-2 text-stone-900 border-b-2 border-[#9B2226] font-label-sm">1</button>
+<button class="px-4 py-2 text-stone-500 hover:text-stone-900 font-label-sm">2</button>
+<button class="px-4 py-2 text-stone-500 hover:text-stone-900 font-label-sm">3</button>
+<button class="px-4 py-2 text-stone-500 hover:text-stone-900 font-label-sm flex items-center gap-1">
+                        Next
+                        <span class="material-symbols-outlined text-base" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</main>
+</div>
+</body></html>

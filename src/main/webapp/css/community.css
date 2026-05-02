@@ -1,0 +1,13 @@
+.text-card--community h3 {
+    margin-bottom: 10px;
+}
+
+.text-card--community .entity-meta {
+    margin-top: 14px;
+}
+
+.inline-note {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+}

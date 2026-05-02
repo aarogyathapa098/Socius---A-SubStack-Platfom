@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CivicPulse | Community Directory</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#251818",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#fbe3e1",
+                        "inverse-primary": "#ffb3ae",
+                        "tertiary-container": "#00596b",
+                        "primary-container": "#9b2226",
+                        "surface-container-highest": "#f5dddb",
+                        "surface-bright": "#fff8f7",
+                        "on-primary-fixed-variant": "#8c161d",
+                        "on-tertiary-fixed-variant": "#004e5e",
+                        "surface-tint": "#ad3031",
+                        "secondary-container": "#e2dfde",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#251818",
+                        "on-secondary-fixed-variant": "#474746",
+                        "on-primary-container": "#ffb0ab",
+                        "on-tertiary-fixed": "#001f27",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "tertiary": "#00404e",
+                        "tertiary-fixed": "#b1ecff",
+                        "surface-dim": "#ecd5d3",
+                        "secondary": "#5f5e5e",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#ffe9e7",
+                        "surface-container-low": "#fff0ef",
+                        "on-surface-variant": "#58413f",
+                        "on-secondary-fixed": "#1b1b1c",
+                        "inverse-on-surface": "#ffedeb",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#8ed0e5",
+                        "outline": "#8c716e",
+                        "primary-fixed-dim": "#ffb3ae",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-container": "#636262",
+                        "background": "#fff8f7",
+                        "primary": "#7a0412",
+                        "surface-variant": "#f5dddb",
+                        "inverse-surface": "#3b2d2c",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#e0bfbc",
+                        "on-error": "#ffffff",
+                        "surface": "#fff8f7",
+                        "on-tertiary-container": "#8ccee3",
+                        "primary-fixed": "#ffdad7",
+                        "on-primary-fixed": "#410005"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-md": "24px",
+                        "margin-edge": "32px",
+                        "unit": "8px",
+                        "stack-lg": "48px",
+                        "container-max": "1120px",
+                        "gutter": "24px",
+                        "stack-sm": "12px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Newsreader"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Newsreader"],
+                        "body-md": ["Inter"],
+                        "display-xl": ["Newsreader"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                        "label-sm": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "display-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .serif-italic { font-family: 'Newsreader'; font-style: italic; }
+        body { background-color: #fff8f7; color: #251818; }
+        .active-nav-border { border-bottom: 2px solid #9B2226; }
+    </style>
+</head>
+<body class="antialiased min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-white border-b border-stone-200">
+<div class="max-w-[1120px] mx-auto flex justify-between items-center px-8 h-16">
+<div class="flex items-center gap-stack-md">
+<span class="text-2xl font-serif italic text-[#9B2226]">CivicPulse</span>
+<div class="hidden md:flex items-center gap-stack-md ml-stack-md">
+<nav class="flex gap-stack-md">
+<a class="font-serif text-stone-900 pb-1 text-[#9B2226] border-b-2 border-[#9B2226]" href="#">Communities</a>
+<a class="font-serif text-stone-500 hover:text-stone-900 transition-colors" href="#">Proposals</a>
+<a class="font-serif text-stone-500 hover:text-stone-900 transition-colors" href="#">Insights</a>
+</nav>
+</div>
+</div>
+<div class="flex items-center gap-stack-sm">
+<div class="hidden sm:flex items-center gap-stack-sm mr-stack-md">
+<button class="p-2 hover:bg-stone-50 transition-colors rounded-full">
+<span class="material-symbols-outlined text-stone-600">notifications</span>
+</button>
+<button class="p-2 hover:bg-stone-50 transition-colors rounded-full">
+<span class="material-symbols-outlined text-stone-600">mail</span>
+</button>
+</div>
+<button class="text-stone-600 font-label-sm px-4 py-2 hover:bg-stone-50 transition-colors rounded-lg">Log In</button>
+<button class="bg-[#9B2226] text-white font-label-sm px-6 py-2 rounded-lg hover:bg-[#7a0412] transition-colors">Join Community</button>
+</div>
+</div>
+</header>
+<div class="flex max-w-[1120px] mx-auto pt-16 min-h-[calc(100vh-64px)]">
+<!-- SideNavBar -->
+<aside class="hidden lg:flex flex-col fixed left-[calc((100vw-1120px)/2)] top-16 h-[calc(100vh-64px)] w-64 p-4 space-y-2 bg-stone-50 border-r border-stone-200">
+<div class="mb-stack-md px-2">
+<p class="font-serif font-bold text-[#9B2226]">Community Hub</p>
+<p class="text-xs text-stone-500 font-medium">Governance Portal</p>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-stone-600 hover:bg-stone-100 transition-all duration-150 font-label-sm rounded-md group" href="#">
+<span class="material-symbols-outlined text-stone-500 group-hover:text-[#9B2226]">dashboard</span>
+                    Dashboard
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 bg-stone-200 text-[#9B2226] font-semibold rounded-md font-label-sm" href="#">
+<span class="material-symbols-outlined">groups</span>
+                    Communities
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-stone-600 hover:bg-stone-100 transition-all duration-150 font-label-sm rounded-md group" href="#">
+<span class="material-symbols-outlined text-stone-500 group-hover:text-[#9B2226]">article</span>
+                    Posts
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-stone-600 hover:bg-stone-100 transition-all duration-150 font-label-sm rounded-md group" href="#">
+<span class="material-symbols-outlined text-stone-500 group-hover:text-[#9B2226]">rule</span>
+                    Review Queue
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-stone-600 hover:bg-stone-100 transition-all duration-150 font-label-sm rounded-md group" href="#">
+<span class="material-symbols-outlined text-stone-500 group-hover:text-[#9B2226]">history</span>
+                    Audit Log
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-stone-600 hover:bg-stone-100 transition-all duration-150 font-label-sm rounded-md group" href="#">
+<span class="material-symbols-outlined text-stone-500 group-hover:text-[#9B2226]">settings</span>
+                    Settings
+                </a>
+</nav>
+<div class="pt-stack-md mt-auto">
+<button class="w-full bg-stone-200 text-[#9B2226] font-semibold py-3 rounded-md hover:bg-stone-300 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add_circle</span>
+                    New Proposal
+                </button>
+</div>
+<div class="pt-stack-md mt-4 border-t border-stone-200">
+<a class="flex items-center gap-3 px-3 py-2 text-stone-500 hover:bg-stone-100 font-label-sm rounded-md" href="#">
+<span class="material-symbols-outlined">help</span> Help Center
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-stone-500 hover:bg-stone-100 font-label-sm rounded-md" href="#">
+<span class="material-symbols-outlined">shield</span> Privacy
+                </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-64 p-8">
+<!-- Header Section -->
+<section class="mb-stack-lg">
+<h1 class="font-headline-lg text-display-xl text-on-surface mb-stack-sm">Community Directory</h1>
+<p class="font-body-lg text-secondary max-w-2xl">Discover and engage with specialized governance circles, civic action groups, and neighborhood associations within the CivicPulse ecosystem.</p>
+</section>
+<!-- Search & Filters -->
+<section class="mb-stack-lg bg-white p-6 rounded-lg border border-stone-200 shadow-sm">
+<div class="flex flex-col md:flex-row gap-stack-md items-end">
+<div class="flex-1 w-full">
+<label class="font-label-sm text-stone-500 mb-2 block">Search Communities</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400">search</span>
+<input class="w-full pl-10 pr-4 py-3 border border-stone-200 rounded-lg focus:ring-1 focus:ring-[#9B2226] focus:border-[#9B2226] outline-none font-body-md" placeholder="e.g. Urban Planning, Coastal Care..." type="text"/>
+</div>
+</div>
+<div class="w-full md:w-48">
+<label class="font-label-sm text-stone-500 mb-2 block">Moderation</label>
+<select class="w-full px-4 py-3 border border-stone-200 rounded-lg focus:ring-1 focus:ring-[#9B2226] focus:border-[#9B2226] outline-none font-body-md bg-white">
+<option>All Status</option>
+<option>Approved</option>
+<option>Pending</option>
+</select>
+</div>
+<div class="w-full md:w-auto">
+<button class="w-full md:w-auto px-8 py-3 bg-[#9B2226] text-white rounded-lg hover:bg-[#7a0412] transition-colors font-label-sm">
+                            Apply Filters
+                        </button>
+</div>
+</div>
+</section>
+<!-- Results Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+<!-- Community Card 1 -->
+<div class="bg-white border border-stone-200 rounded-lg p-stack-md hover:shadow-lg transition-all duration-300 flex flex-col h-full group">
+<div class="flex justify-between items-start mb-4">
+<div class="h-14 w-14 bg-stone-100 rounded-lg overflow-hidden flex items-center justify-center">
+<img alt="Urban Planning" class="w-full h-full object-cover" data-alt="minimalist architectural drawing of a modern city square with trees and public benches in soft watercolor style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRZ49Qnw_R8RsZjatnzeE-48ckkTjffMU4wZN7RCrZauFp59itM_TI9xqgwJDy4msFoJJ1smWzviv8vr0oi1KYMkMwr7OZgqu7Eh5IM-kqWUtjFEIlXbX0dACa9-gDkAkJYiU0jXyI0BDBKsAk9QiTjg7Hwk8imhEWzyzIQ51njhWc5PAaa7ygPyGVzJhYA_184eYIal-RKPLwXGbBPVV9EIHACnuctMd7sc0Wh8oXNQFm9P-zfdGnFVrbQXdGfh5kEBe0pA"/>
+</div>
+<span class="px-3 py-1 bg-[#f1f8f3] text-[#2d5a39] text-xs font-semibold rounded-full uppercase tracking-wider">Approved</span>
+</div>
+<h3 class="font-headline-md text-stone-900 mb-2 group-hover:text-[#9B2226] transition-colors">Urban Mobility Taskforce</h3>
+<p class="font-body-md text-secondary mb-stack-md flex-grow">Dedicated to redesigning downtown transit corridors to favor pedestrians and sustainable micro-mobility solutions.</p>
+<div class="flex items-center justify-between mt-auto pt-stack-sm border-t border-stone-100">
+<div class="flex items-center gap-2 text-stone-500 font-label-sm">
+<span class="material-symbols-outlined text-sm">groups</span>
+                            1,248 Members
+                        </div>
+<button class="text-[#9B2226] font-semibold font-label-sm hover:underline flex items-center gap-1">
+                            View <span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Community Card 2 -->
+<div class="bg-white border border-stone-200 rounded-lg p-stack-md hover:shadow-lg transition-all duration-300 flex flex-col h-full group">
+<div class="flex justify-between items-start mb-4">
+<div class="h-14 w-14 bg-stone-100 rounded-lg overflow-hidden flex items-center justify-center">
+<img alt="Climate Action" class="w-full h-full object-cover" data-alt="close up of a vibrant green sprout emerging from rich dark soil in soft morning sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHGniodfyIfSXo-qylnWEMv-mPB2pUWFIHH_7g1DYWn-iKLF8dGDpa9aJhYdS-D3J6jN7-jA72LFugenBxkvGEnUdbsPCBD_lzLpnVW1y6_hW_1Qc-42G7iD8dyufUiJ_gyoucCxNs1G7fPNnn712fK2QEqsT8TMkJOFxGAgqndm_qbhCsDY2GgfhbK8cLAK1lD6i3RxSyrDTc88OkeL9LU4aGnXdFU5o8Vo_qJd9S4vJ0nc6MGLlN4TX-Y1HaUwDmzNch6Q"/>
+</div>
+<span class="px-3 py-1 bg-[#fdf8e6] text-[#856404] text-xs font-semibold rounded-full uppercase tracking-wider">Pending</span>
+</div>
+<h3 class="font-headline-md text-stone-900 mb-2 group-hover:text-[#9B2226] transition-colors">Coastal Resilience Circle</h3>
+<p class="font-body-md text-secondary mb-stack-md flex-grow">Strategic planning for shoreline protection and restoration projects in response to rising sea levels.</p>
+<div class="flex items-center justify-between mt-auto pt-stack-sm border-t border-stone-100">
+<div class="flex items-center gap-2 text-stone-500 font-label-sm">
+<span class="material-symbols-outlined text-sm">groups</span>
+                            856 Members
+                        </div>
+<button class="text-[#9B2226] font-semibold font-label-sm hover:underline flex items-center gap-1">
+                            View <span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Community Card 3 -->
+<div class="bg-white border border-stone-200 rounded-lg p-stack-md hover:shadow-lg transition-all duration-300 flex flex-col h-full group">
+<div class="flex justify-between items-start mb-4">
+<div class="h-14 w-14 bg-stone-100 rounded-lg overflow-hidden flex items-center justify-center">
+<img alt="Education" class="w-full h-full object-cover" data-alt="top view of an open notebook with elegant cursive writing and a vintage fountain pen on a wooden desk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3xHZUwV1QpNyyytJph9p8KUgvka0DWzvryIkWMiSxUOUZeuYtWod05PCRIKeljzb1DSIX6e35rhn-huNOy_0fn42FQR5HVa2FcmBTwaGsHawAXReFb-0IGO2o7DgKIXb8eBRZuYY7aZDIPkQ-4ZrR7Px95V8XwAblu8A5UNoRgle4w3XlUOHPLnGjAulFMAQQupbTyhJtMHesY61MkrlEugiQzWFq7ud_eKJdiyH83BL_FPoSF7nMlj0_iX-YL9myZyeG9Q"/>
+</div>
+<span class="px-3 py-1 bg-[#f1f8f3] text-[#2d5a39] text-xs font-semibold rounded-full uppercase tracking-wider">Approved</span>
+</div>
+<h3 class="font-headline-md text-stone-900 mb-2 group-hover:text-[#9B2226] transition-colors">Literacy Volunteers Union</h3>
+<p class="font-body-md text-secondary mb-stack-md flex-grow">Coordinating community-led tutoring programs and library expansion initiatives for underserved neighborhoods.</p>
+<div class="flex items-center justify-between mt-auto pt-stack-sm border-t border-stone-100">
+<div class="flex items-center gap-2 text-stone-500 font-label-sm">
+<span class="material-symbols-outlined text-sm">groups</span>
+                            3,102 Members
+                        </div>
+<button class="text-[#9B2226] font-semibold font-label-sm hover:underline flex items-center gap-1">
+                            View <span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Community Card 4 -->
+<div class="bg-white border border-stone-200 rounded-lg p-stack-md hover:shadow-lg transition-all duration-300 flex flex-col h-full group">
+<div class="flex justify-between items-start mb-4">
+<div class="h-14 w-14 bg-stone-100 rounded-lg overflow-hidden flex items-center justify-center">
+<img alt="Public Space" class="w-full h-full object-cover" data-alt="perspective view of a bright minimalist gallery space with clean white walls and polished concrete floor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABbdaXvqZQgBfSpxj8JAshInX-je7SX_vHvAljPzfE2Kag8fcIMiNiAHuxZUtfVcz_RWFuWvARxvPVWFA7_kprdte-qthiMkFL-nUgCRC62COjcYjhzy7wjMW5sFXlmbi-r-cwZqLVZjLEFkT4C9h8G0dmopRli-NMB0d6q23A70qMQBlgNnOvrTIeL_bbd5dGlxvxyuA1665eHx9BW4R7o3-XRHxSNvwqJfWIajji19CDa82tie4kqs0ZGOg0_aLfraQgdg"/>
+</div>
+<span class="px-3 py-1 bg-[#fdf8e6] text-[#856404] text-xs font-semibold rounded-full uppercase tracking-wider">Pending</span>
+</div>
+<h3 class="font-headline-md text-stone-900 mb-2 group-hover:text-[#9B2226] transition-colors">The Arts District Council</h3>
+<p class="font-body-md text-secondary mb-stack-md flex-grow">Advocating for public art installations and the preservation of low-cost studio spaces for local creatives.</p>
+<div class="flex items-center justify-between mt-auto pt-stack-sm border-t border-stone-100">
+<div class="flex items-center gap-2 text-stone-500 font-label-sm">
+<span class="material-symbols-outlined text-sm">groups</span>
+                            540 Members
+                        </div>
+<button class="text-[#9B2226] font-semibold font-label-sm hover:underline flex items-center gap-1">
+                            View <span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Pagination/Footer Actions -->
+<div class="mt-stack-lg flex items-center justify-between border-t border-stone-200 pt-stack-md">
+<button class="px-6 py-2 border border-stone-300 rounded-lg font-label-sm text-stone-600 hover:bg-stone-50 transition-colors">Previous</button>
+<div class="flex gap-2">
+<button class="h-10 w-10 flex items-center justify-center bg-[#9B2226] text-white rounded-lg font-label-sm">1</button>
+<button class="h-10 w-10 flex items-center justify-center text-stone-600 hover:bg-stone-50 rounded-lg font-label-sm">2</button>
+<button class="h-10 w-10 flex items-center justify-center text-stone-600 hover:bg-stone-50 rounded-lg font-label-sm">3</button>
+</div>
+<button class="px-6 py-2 border border-stone-300 rounded-lg font-label-sm text-stone-600 hover:bg-stone-50 transition-colors">Next</button>
+</div>
+</main>
+</div>
+<!-- Mobile Bottom NavBar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-white border-t border-stone-200 h-16 flex items-center justify-around z-50">
+<button class="flex flex-col items-center gap-1 text-[#9B2226]">
+<span class="material-symbols-outlined">groups</span>
+<span class="text-[10px] font-bold">Groups</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-stone-400">
+<span class="material-symbols-outlined">explore</span>
+<span class="text-[10px]">Explore</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-stone-400">
+<span class="material-symbols-outlined">add_box</span>
+<span class="text-[10px]">Propose</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-stone-400">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px]">Profile</span>
+</button>
+</nav>
+</body></html>

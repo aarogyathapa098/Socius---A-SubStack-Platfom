@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#251818",
+                    "on-error-container": "#93000a",
+                    "surface-container-high": "#fbe3e1",
+                    "inverse-primary": "#ffb3ae",
+                    "tertiary-container": "#00596b",
+                    "primary-container": "#9b2226",
+                    "surface-container-highest": "#f5dddb",
+                    "surface-bright": "#fff8f7",
+                    "on-primary-fixed-variant": "#8c161d",
+                    "on-tertiary-fixed-variant": "#004e5e",
+                    "surface-tint": "#ad3031",
+                    "secondary-container": "#e2dfde",
+                    "secondary-fixed": "#e5e2e1",
+                    "on-secondary": "#ffffff",
+                    "on-surface": "#251818",
+                    "on-secondary-fixed-variant": "#474746",
+                    "on-primary-container": "#ffb0ab",
+                    "on-tertiary-fixed": "#001f27",
+                    "secondary-fixed-dim": "#c8c6c5",
+                    "tertiary": "#00404e",
+                    "tertiary-fixed": "#b1ecff",
+                    "surface-dim": "#ecd5d3",
+                    "secondary": "#5f5e5e",
+                    "error-container": "#ffdad6",
+                    "on-primary": "#ffffff",
+                    "surface-container": "#ffe9e7",
+                    "surface-container-low": "#fff0ef",
+                    "on-surface-variant": "#58413f",
+                    "on-secondary-fixed": "#1b1b1c",
+                    "inverse-on-surface": "#ffedeb",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#8ed0e5",
+                    "outline": "#8c716e",
+                    "primary-fixed-dim": "#ffb3ae",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#636262",
+                    "background": "#fff8f7",
+                    "primary": "#7a0412",
+                    "surface-variant": "#f5dddb",
+                    "inverse-surface": "#3b2d2c",
+                    "error": "#ba1a1a",
+                    "outline-variant": "#e0bfbc",
+                    "on-error": "#ffffff",
+                    "surface": "#fff8f7",
+                    "on-tertiary-container": "#8ccee3",
+                    "primary-fixed": "#ffdad7",
+                    "on-primary-fixed": "#410005"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "24px",
+                    "margin-edge": "32px",
+                    "unit": "8px",
+                    "stack-lg": "48px",
+                    "container-max": "1120px",
+                    "gutter": "24px",
+                    "stack-sm": "12px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Newsreader"],
+                    "label-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Newsreader"],
+                    "body-md": ["Inter"],
+                    "display-xl": ["Newsreader"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                    "label-sm": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "display-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #fff8f7;
+            color: #251818;
+        }
+        .prose p { margin-bottom: 1.5rem; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-8 h-16 max-w-[1120px] left-1/2 -translate-x-1/2 bg-white border-b border-stone-200">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-serif italic text-[#9B2226]">CivicPulse</span>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="text-[#9B2226] border-b-2 border-[#9B2226] pb-1 font-label-sm text-label-sm" href="#">Posts</a>
+<a class="text-stone-500 hover:text-stone-900 transition-colors font-label-sm text-label-sm" href="#">Communities</a>
+<a class="text-stone-500 hover:text-stone-900 transition-colors font-label-sm text-label-sm" href="#">Dashboard</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-stone-50 rounded-full transition-colors">
+<span class="material-symbols-outlined text-stone-600">notifications</span>
+</button>
+<button class="p-2 hover:bg-stone-50 rounded-full transition-colors">
+<span class="material-symbols-outlined text-stone-600">mail</span>
+</button>
+<button class="hidden md:block px-4 py-2 border border-stone-300 rounded-lg font-label-sm text-label-sm hover:bg-stone-50 transition-colors">Log In</button>
+<button class="px-4 py-2 bg-[#9B2226] text-white rounded-lg font-label-sm text-label-sm hover:opacity-90 transition-opacity">Join Community</button>
+</div>
+</header>
+<!-- SideNavBar (Suppressed for focused detail reading as per "Shell Visibility" mandate - only subtle side indicators if needed) -->
+<main class="pt-32 pb-24 px-margin-edge max-w-[1120px] mx-auto min-h-screen">
+<!-- Post Layout -->
+<article class="max-w-[720px] mx-auto">
+<!-- Metadata Header -->
+<header class="mb-stack-lg space-y-stack-sm">
+<div class="flex items-center gap-4">
+<span class="bg-[#f2f4f2] text-[#1a3a1a] px-3 py-1 rounded-full text-[12px] font-bold tracking-wider uppercase">Approved</span>
+<span class="text-stone-500 font-label-sm text-label-sm">Posted in <a class="text-primary font-semibold hover:underline" href="#">Urban Renewal</a></span>
+</div>
+<h1 class="font-display-xl text-display-xl text-on-surface leading-tight">The Future of Public Transit in Mid-Sized Metropolitan Hubs</h1>
+<div class="flex items-center gap-4 pt-4 border-t border-stone-100">
+<img alt="Author profile image" class="w-10 h-10 rounded-full object-cover" data-alt="portrait of a professional man in a charcoal suit, natural lighting, academic setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLTGyjYoEbQevJnwPWY8VoZY5DWkS_seYqq7N_vwsIYf1i0Ik5A0hdJJ8Zefsgffl7ZxUbf0RADFLsEiFGnr8539Wg6mfrr4S38QM4lo7uimsC9voE_etXw1UaXVFZq82Ycpk6sUpacByj_bgDZJv1T9wz1gA47lgoRb0Lmx605LhaZBhJA1G1FxJ1xT0ADT_vJNPpOqKu1raHF8d6w7Wez-seOOb4TrT39vQfxV0miXhzMNCuasdzn8LQp_eyvJiVtfV-2w"/>
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Dr. Julian Vance</span>
+<span class="text-stone-500 text-label-sm">Lead Architect • Oct 12, 2023 • 8 min read</span>
+</div>
+</div>
+</header>
+<!-- Featured Image -->
+<figure class="mb-stack-lg rounded-xl overflow-hidden border border-stone-200">
+<img alt="Modern transit architecture" class="w-full h-auto" data-alt="modern glass train station with warm evening lighting, people walking through a sleek architectural space" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQFbauVNH7PFvE6G5Huh8rCZUaLPUw8PCEk47aXlm_XVSYWxLs4N1cFHbbk6JIP-XJqIK2q9SburQh_SyodLUiMZMO8dqsNcHYyT8yRo2ae_HtoaEUKGOLwWK6ikdLqrqOLVHMf_Dv0TAJPEXeiSZk0VV3MK1R51hDULlA11oYW0QBhAmLME2YYHanO6na7LOiqEi6MIWVwTGTXZiIH3MJaJNH6xgXSrdxhULefmUGHZV1aa2H2eMggBcUsZuwZQ2RDxBpWQ"/>
+<figcaption class="p-4 bg-stone-50 text-stone-500 text-sm font-label-sm text-center">
+                    Proposal for the New Central Terminal, slated for 2025.
+                </figcaption>
+</figure>
+<!-- Main Content (Distraction-Free Prose) -->
+<div class="prose prose-stone max-w-none font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+<p>
+                    As we look toward the next decade of civic infrastructure, the challenge of urban mobility has shifted from simple expansion to intelligent integration. For mid-sized cities, the traditional model of heavy rail is often cost-prohibitive, while standard bus networks suffer from perceived inefficiencies that deter choice-riders.
+                </p>
+<p>
+                    The proposed CivicPulse framework suggests a hybrid approach: Bus Rapid Transit (BRT) prioritized by autonomous signaling, layered with micro-mobility hubs at every major junction. This "Active Pulse" system doesn't just move people; it revitalizes the surrounding streetscape by reclaimimg two lanes of vehicle traffic for green corridors.
+                </p>
+<blockquote class="border-l-4 border-primary pl-6 my-stack-md italic font-headline-md text-headline-md text-on-surface">
+                    "Infrastructure is not just concrete and steel; it is the physical manifestation of a community's values and its commitment to collective progress."
+                </blockquote>
+<p>
+                    Data from the pilot program in the North District indicates a 22% increase in local commerce within a 400-meter radius of new hubs. By treating transit stops as community anchors—equipped with high-speed mesh networks and climate-controlled waiting areas—we transform a utilitarian necessity into a civic destination.
+                </p>
+<p>
+                    Moving forward, the Audit Log for this proposal remains open for public review. We encourage all residents to weigh in on the proposed zoning shifts required for Phase II of the East-West corridor.
+                </p>
+</div>
+<!-- Interaction Bar -->
+<div class="flex items-center justify-between py-stack-md border-y border-stone-200 mt-stack-lg">
+<div class="flex items-center gap-6">
+<button class="flex items-center gap-2 text-stone-600 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-weight="fill">thumb_up</span>
+<span class="font-label-sm">482</span>
+</button>
+<button class="flex items-center gap-2 text-stone-600 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="font-label-sm">34 Comments</span>
+</button>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-stone-50 rounded-full transition-colors">
+<span class="material-symbols-outlined">bookmark</span>
+</button>
+<button class="p-2 hover:bg-stone-50 rounded-full transition-colors">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</div>
+<!-- Comments Section -->
+<section class="mt-stack-lg">
+<h3 class="font-headline-md text-headline-md mb-stack-md">Community Discussion</h3>
+<!-- Comment Input -->
+<div class="mb-stack-lg">
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-stone-200 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-stone-500">person</span>
+</div>
+<div class="flex-1">
+<textarea class="w-full p-4 border border-stone-200 rounded-lg focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all resize-none min-h-[100px]" placeholder="Join the discussion..."></textarea>
+<div class="flex justify-end mt-2">
+<button class="px-6 py-2 bg-[#9B2226] text-white rounded-lg font-label-sm text-label-sm">Post Comment</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Nested Comments -->
+<div class="space-y-stack-md">
+<!-- Parent Comment 1 -->
+<div class="flex gap-4">
+<img alt="Commenter avatar" class="w-10 h-10 rounded-full object-cover shrink-0" data-alt="portrait of a confident woman, professional lighting, urban office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbPicXCPQfCjC622fJAz-9YCjDXkXIC_oDQ3LY86ACQQGV3JY1XwHYRtN-uCS9kf6n4Fle3926tjIVFiiCguyuY--ml0s4Nwn4Tzcy1GzJRSdcQgjFj4TC5ghc6wbw5vfcdmWSPyMFEri1hpIVeYKa8DqkzzZQq5sprXqMHePhlk2MkVaYmH8IhY3KTLfZPzabmZPIpyxH4evSe8IqxX5xZv1ntMEVyghDsRed3syzohhQqp7bFjzHw9wI55qPygLAyrfBvw"/>
+<div class="flex-1">
+<div class="bg-stone-50 p-stack-sm rounded-lg border border-stone-100">
+<div class="flex items-center justify-between mb-2">
+<span class="font-bold text-on-surface">Sarah Jenkins</span>
+<span class="text-stone-400 text-[12px]">2 hours ago</span>
+</div>
+<p class="text-on-surface-variant font-body-md">The point about local commerce increases is vital. We saw similar trends during the 2018 pedestrianization trial. How does Phase II account for the potential rise in commercial rents for existing small businesses?</p>
+<div class="flex items-center gap-4 mt-3">
+<button class="text-xs font-bold text-stone-500 hover:text-primary uppercase tracking-tighter">Reply</button>
+<button class="text-xs font-bold text-stone-500 hover:text-primary uppercase tracking-tighter">Upvote (12)</button>
+</div>
+</div>
+<!-- Nested Reply -->
+<div class="mt-4 pl-8 border-l-2 border-stone-100 space-y-4">
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded-full bg-stone-800 text-white flex items-center justify-center text-[10px] font-bold">OP</div>
+<div class="flex-1">
+<div class="bg-white p-3 rounded-lg border border-stone-200">
+<div class="flex items-center justify-between mb-1">
+<span class="font-bold text-on-surface text-sm">Dr. Julian Vance</span>
+<span class="text-stone-400 text-[10px]">1 hour ago</span>
+</div>
+<p class="text-on-surface-variant text-sm">Excellent question, Sarah. The proposal includes a "Legacy Business" grant program specifically to offset these shifts for businesses that have been in the corridor for over 5 years.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Parent Comment 2 -->
+<div class="flex gap-4">
+<img alt="Commenter avatar" class="w-10 h-10 rounded-full object-cover shrink-0" data-alt="portrait of a man with spectacles, warm lighting, creative studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlaufLjjyZlV8XymRYHNy09u8jrKNQciAzFoPapmNU9QNGPcqWZ3hPL9Q0bdk7SE8fm3tKYqlEDELUV1ijvuU64vJATTEgpqn6aa6BVUEBOZeHqZKO8SNuoz-dZPbghyPrbNvUO1mz8T7--5cze7oB0V0ghbcxaqSfJmU4Gm9dYrpgf9v2HC7yzRDjR-8Z8eJmAbzjIy6fc11fo_S5kF2iIv0vL5tuFFk1oXP7ARKGLyOx3UiXZpGNzBez3Qi5cFvtC7NXuQ"/>
+<div class="flex-1">
+<div class="bg-stone-50 p-stack-sm rounded-lg border border-stone-100">
+<div class="flex items-center justify-between mb-2">
+<span class="font-bold text-on-surface">Mark Thorne</span>
+<span class="text-stone-400 text-[12px]">5 hours ago</span>
+</div>
+<p class="text-on-surface-variant font-body-md">Has the noise pollution impact for the residential zones between 5th and 8th Avenue been modeled yet? BRT systems can be significantly louder than the current traffic flow during peak hours.</p>
+<div class="flex items-center gap-4 mt-3">
+<button class="text-xs font-bold text-stone-500 hover:text-primary uppercase tracking-tighter">Reply</button>
+<button class="text-xs font-bold text-stone-500 hover:text-primary uppercase tracking-tighter">Upvote (4)</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</article>
+<!-- Post Navigation Footer -->
+<div class="max-w-[720px] mx-auto mt-stack-lg pt-stack-lg border-t border-stone-200 grid grid-cols-2 gap-8">
+<a class="group block" href="#">
+<span class="text-stone-400 text-label-sm block mb-1">Previous Post</span>
+<span class="font-headline-md text-on-surface group-hover:text-primary transition-colors">Decentralized Power Grids: A 2024 Outlook</span>
+</a>
+<a class="group block text-right" href="#">
+<span class="text-stone-400 text-label-sm block mb-1">Next Post</span>
+<span class="font-headline-md text-on-surface group-hover:text-primary transition-colors">Urban Canopy Coverage Standards</span>
+</a>
+</div>
+</main>
+<!-- Floating Action for Quick Navigation (Suppressed per task context of detail reading) -->
+<!-- Mobile Bottom Navigation (Destination Rule: Only if top-level, but here for structural completeness) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-white border-t border-stone-200 flex justify-around items-center h-16 z-50">
+<button class="flex flex-col items-center text-stone-400">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px]">Feed</span>
+</button>
+<button class="flex flex-col items-center text-[#9B2226]">
+<span class="material-symbols-outlined" data-weight="fill">article</span>
+<span class="text-[10px]">Read</span>
+</button>
+<button class="flex flex-col items-center text-stone-400">
+<span class="material-symbols-outlined">groups</span>
+<span class="text-[10px]">Socius</span>
+</button>
+<button class="flex flex-col items-center text-stone-400">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px]">Menu</span>
+</button>
+</nav>
+</body></html>

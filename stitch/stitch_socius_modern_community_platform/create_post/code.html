@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create Post | CivicPulse</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-background": "#251818",
+                      "on-error-container": "#93000a",
+                      "surface-container-high": "#fbe3e1",
+                      "inverse-primary": "#ffb3ae",
+                      "tertiary-container": "#00596b",
+                      "primary-container": "#9b2226",
+                      "surface-container-highest": "#f5dddb",
+                      "surface-bright": "#fff8f7",
+                      "on-primary-fixed-variant": "#8c161d",
+                      "on-tertiary-fixed-variant": "#004e5e",
+                      "surface-tint": "#ad3031",
+                      "secondary-container": "#e2dfde",
+                      "secondary-fixed": "#e5e2e1",
+                      "on-secondary": "#ffffff",
+                      "on-surface": "#251818",
+                      "on-secondary-fixed-variant": "#474746",
+                      "on-primary-container": "#ffb0ab",
+                      "on-tertiary-fixed": "#001f27",
+                      "secondary-fixed-dim": "#c8c6c5",
+                      "tertiary": "#00404e",
+                      "tertiary-fixed": "#b1ecff",
+                      "surface-dim": "#ecd5d3",
+                      "secondary": "#5f5e5e",
+                      "error-container": "#ffdad6",
+                      "on-primary": "#ffffff",
+                      "surface-container": "#ffe9e7",
+                      "surface-container-low": "#fff0ef",
+                      "on-surface-variant": "#58413f",
+                      "on-secondary-fixed": "#1b1b1c",
+                      "inverse-on-surface": "#ffedeb",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-fixed-dim": "#8ed0e5",
+                      "outline": "#8c716e",
+                      "primary-fixed-dim": "#ffb3ae",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-container": "#636262",
+                      "background": "#fff8f7",
+                      "primary": "#7a0412",
+                      "surface-variant": "#f5dddb",
+                      "inverse-surface": "#3b2d2c",
+                      "error": "#ba1a1a",
+                      "outline-variant": "#e0bfbc",
+                      "on-error": "#ffffff",
+                      "surface": "#fff8f7",
+                      "on-tertiary-container": "#8ccee3",
+                      "primary-fixed": "#ffdad7",
+                      "on-primary-fixed": "#410005"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-md": "24px",
+                      "margin-edge": "32px",
+                      "unit": "8px",
+                      "stack-lg": "48px",
+                      "container-max": "1120px",
+                      "gutter": "24px",
+                      "stack-sm": "12px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Newsreader"],
+                      "label-sm": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-lg": ["Newsreader"],
+                      "body-md": ["Inter"],
+                      "display-xl": ["Newsreader"]
+              },
+              "fontSize": {
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                      "label-sm": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "display-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #fff8f7;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-white dark:bg-stone-950 border-b border-stone-200 dark:border-stone-800 h-16">
+<div class="max-w-[1120px] mx-auto px-8 h-full flex justify-between items-center">
+<div class="flex items-center gap-stack-md">
+<span class="text-2xl font-serif italic text-[#9B2226]">CivicPulse</span>
+<div class="hidden md:flex items-center gap-gutter ml-stack-lg">
+<a class="text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors" href="#">Dashboard</a>
+<a class="text-[#9B2226] border-b-2 border-[#9B2226] pb-1" href="#">Communities</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors" href="#">Posts</a>
+</div>
+</div>
+<div class="flex items-center gap-stack-sm">
+<button class="p-2 text-stone-600 hover:bg-stone-50 transition-colors rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-stone-600 hover:bg-stone-50 transition-colors rounded-full">
+<span class="material-symbols-outlined">mail</span>
+</button>
+<div class="h-8 w-px bg-stone-200 mx-2"></div>
+<button class="px-4 py-2 font-label-sm text-stone-600 hover:bg-stone-50 transition-colors">Log In</button>
+<button class="px-6 py-2 font-label-sm bg-[#9B2226] text-white rounded-lg transition-colors hover:bg-primary">Join Community</button>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-stack-lg px-margin-edge">
+<div class="max-w-[1120px] mx-auto grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-gutter items-start">
+<!-- Main Content: Create Post Form -->
+<div class="space-y-stack-lg">
+<header>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">Create New Post</h1>
+<p class="font-body-md text-secondary">Contribute your voice to the CivicPulse discourse. Please ensure your submission adheres to our community standards.</p>
+</header>
+<form class="space-y-stack-lg">
+<!-- Step 1: Destination & Metadata -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+<div class="space-y-stack-sm">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Select Community</label>
+<div class="relative">
+<select class="w-full h-12 px-4 bg-white border border-outline-variant rounded-lg focus:ring-1 focus:ring-primary focus:border-primary appearance-none text-body-md">
+<option>Select a community...</option>
+<option>Urban Planning &amp; Transit</option>
+<option>Public Health Initiatives</option>
+<option>Education Reform</option>
+<option>Economic Sustainability</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-secondary">expand_more</span>
+</div>
+</div>
+<div class="space-y-stack-sm">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">Post Type</label>
+<div class="flex gap-2">
+<button class="flex-1 h-12 border border-primary text-primary bg-primary-fixed/20 rounded-lg font-medium flex items-center justify-center gap-2" type="button">
+<span class="material-symbols-outlined text-[20px]">article</span> Editorial
+                                </button>
+<button class="flex-1 h-12 border border-outline-variant hover:border-secondary text-secondary rounded-lg font-medium flex items-center justify-center gap-2" type="button">
+<span class="material-symbols-outlined text-[20px]">poll</span> Proposal
+                                </button>
+<button class="flex-1 h-12 border border-outline-variant hover:border-secondary text-secondary rounded-lg font-medium flex items-center justify-center gap-2" type="button">
+<span class="material-symbols-outlined text-[20px]">forum</span> Discussion
+                                </button>
+</div>
+</div>
+</div>
+<!-- Step 2: Editorial Content -->
+<div class="p-stack-md bg-white border border-outline-variant rounded-lg space-y-stack-md">
+<div class="space-y-stack-sm">
+<label class="font-label-sm text-label-sm text-secondary">HEADLINE</label>
+<input class="w-full text-headline-md font-headline-md border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-2 placeholder:text-stone-300" placeholder="Enter a descriptive and balanced title..." type="text"/>
+</div>
+<div class="space-y-stack-sm">
+<div class="flex items-center justify-between border-b border-outline-variant pb-2">
+<label class="font-label-sm text-label-sm text-secondary uppercase">Content Body</label>
+<div class="flex gap-4">
+<button class="text-secondary hover:text-primary" type="button"><span class="material-symbols-outlined text-[20px]">format_bold</span></button>
+<button class="text-secondary hover:text-primary" type="button"><span class="material-symbols-outlined text-[20px]">format_italic</span></button>
+<button class="text-secondary hover:text-primary" type="button"><span class="material-symbols-outlined text-[20px]">format_list_bulleted</span></button>
+<button class="text-secondary hover:text-primary" type="button"><span class="material-symbols-outlined text-[20px]">link</span></button>
+<button class="text-secondary hover:text-primary" type="button"><span class="material-symbols-outlined text-[20px]">format_quote</span></button>
+</div>
+</div>
+<textarea class="w-full font-body-lg text-body-lg border-none focus:ring-0 px-0 resize-none placeholder:text-stone-300" placeholder="Start writing your editorial..." rows="12"></textarea>
+</div>
+</div>
+<!-- Step 3: Visual Assets -->
+<div class="p-stack-md bg-white border border-outline-variant border-dashed rounded-lg">
+<div class="flex flex-col items-center justify-center py-stack-lg border-2 border-dashed border-stone-100 rounded-lg mb-stack-md">
+<span class="material-symbols-outlined text-4xl text-stone-300 mb-2">add_a_photo</span>
+<p class="font-body-md text-stone-500">Drag high-resolution imagery here</p>
+<button class="mt-4 px-4 py-2 border border-outline text-on-surface-variant font-label-sm rounded-lg hover:bg-stone-50" type="button">Browse Gallery</button>
+</div>
+<div class="space-y-stack-sm">
+<label class="font-label-sm text-label-sm text-secondary uppercase">Alt Text (Accessibility)</label>
+<input class="w-full h-10 px-4 bg-stone-50 border border-outline-variant rounded focus:ring-1 focus:ring-primary focus:border-primary text-body-md" placeholder="Describe this image for visually impaired readers..." type="text"/>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center justify-end gap-stack-md pt-stack-sm">
+<button class="px-8 py-3 border border-outline text-on-surface font-label-sm rounded-lg hover:bg-white/50 transition-colors" type="button">Save Draft</button>
+<button class="px-10 py-3 bg-[#9B2226] text-white font-label-sm rounded-lg shadow-sm hover:bg-primary transition-all flex items-center gap-2" type="submit">
+                            Submit for Review
+                            <span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</form>
+</div>
+<!-- Sidebar Context -->
+<aside class="space-y-stack-md lg:sticky lg:top-24">
+<!-- Guidelines Card -->
+<div class="bg-surface-container-low border border-outline-variant p-6 rounded-xl">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary">gavel</span>
+<h3 class="font-headline-md text-on-surface">Community Guidelines</h3>
+</div>
+<ul class="space-y-4">
+<li class="flex gap-3">
+<span class="text-primary mt-1 text-xs">●</span>
+<p class="font-body-md text-secondary">Provide sources for all statistical claims to ensure factual integrity.</p>
+</li>
+<li class="flex gap-3">
+<span class="text-primary mt-1 text-xs">●</span>
+<p class="font-body-md text-secondary">Maintain a civil tone; focus on policies and ideas rather than personalities.</p>
+</li>
+<li class="flex gap-3">
+<span class="text-primary mt-1 text-xs">●</span>
+<p class="font-body-md text-secondary">Use descriptive headlines that summarize the core argument or data point.</p>
+</li>
+</ul>
+</div>
+<!-- Review Process Card -->
+<div class="p-6 border border-outline-variant rounded-xl bg-white">
+<h4 class="font-label-sm text-secondary mb-3 uppercase tracking-widest">Editorial Queue</h4>
+<p class="text-body-md text-on-surface mb-4">Your submission will be reviewed by three community moderators for:</p>
+<div class="space-y-2">
+<div class="flex justify-between items-center py-2 border-b border-stone-50">
+<span class="text-body-md">Verifiability</span>
+<span class="material-symbols-outlined text-stone-300 text-sm">check_circle</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-stone-50">
+<span class="text-body-md">Civility Check</span>
+<span class="material-symbols-outlined text-stone-300 text-sm">check_circle</span>
+</div>
+<div class="flex justify-between items-center py-2">
+<span class="text-body-md">Formatting</span>
+<span class="material-symbols-outlined text-stone-300 text-sm">check_circle</span>
+</div>
+</div>
+</div>
+<!-- Featured Graphic -->
+<div class="relative h-48 rounded-xl overflow-hidden group">
+<img class="w-full h-full object-cover" data-alt="Modern collaborative workspace with glass walls, architectural blueprints on tables, and soft natural lighting in a professional setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCveSKCb6rWYsKJCC1kgHHrjGbGRheZ6vJfvC-_YhA3fnia148SM13bIYhX-JIN8F44WSUekIjr9DEC7F4O70qypzzymzmrCBc2TIdu8PmLUkYJ52-DLXxWu1AcB5ZGde4cAj1IpOZzPpmV6H-armGDSwJB8pJP_8qYEd0dwDz4k2EFlnrRWgDzdhRX5uBiASmCtc_GJjiNpTePFlmkSwd_npl88YUbP5evWd-NMs5nml4xeVgwcyzesDPbuv0gIyvBvxxWdQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+<p class="text-white font-label-sm">Join the 1,200 active editors shaping local governance today.</p>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- SideNavBar (Hidden on Mobile) -->
+<nav class="hidden lg:flex flex-col fixed left-0 top-16 h-[calc(100vh-64px)] p-4 space-y-2 w-64 bg-stone-50 dark:bg-stone-900 border-r border-stone-200 dark:border-stone-800">
+<div class="px-4 py-6 mb-4">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 rounded bg-primary-container flex items-center justify-center text-white">
+<span class="material-symbols-outlined">account_balance</span>
+</div>
+<div>
+<h3 class="font-serif font-bold text-[#9B2226]">Community Hub</h3>
+<p class="text-xs text-stone-500 font-medium">Governance Portal</p>
+</div>
+</div>
+</div>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 hover:translate-x-1 transition-all duration-150 rounded-md font-medium text-sm" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 bg-stone-200 dark:bg-stone-800 text-[#9B2226] font-semibold rounded-md transition-all duration-150 text-sm" href="#">
+<span class="material-symbols-outlined">groups</span> Communities
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 hover:translate-x-1 transition-all duration-150 rounded-md font-medium text-sm" href="#">
+<span class="material-symbols-outlined">article</span> Posts
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 hover:translate-x-1 transition-all duration-150 rounded-md font-medium text-sm" href="#">
+<span class="material-symbols-outlined">rule</span> Review Queue
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 hover:translate-x-1 transition-all duration-150 rounded-md font-medium text-sm" href="#">
+<span class="material-symbols-outlined">history</span> Audit Log
+        </a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 hover:translate-x-1 transition-all duration-150 rounded-md font-medium text-sm" href="#">
+<span class="material-symbols-outlined">settings</span> Settings
+        </a>
+<div class="mt-auto pt-4 border-t border-stone-200">
+<button class="w-full mb-4 py-3 px-4 bg-[#9B2226] text-white rounded-md font-semibold text-sm flex items-center justify-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[20px]">add</span> New Proposal
+            </button>
+<a class="flex items-center gap-3 px-4 py-2 text-stone-500 text-sm hover:text-stone-900" href="#">
+<span class="material-symbols-outlined text-[18px]">help</span> Help Center
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 text-stone-500 text-sm hover:text-stone-900" href="#">
+<span class="material-symbols-outlined text-[18px]">shield</span> Privacy
+            </a>
+</div>
+</nav>
+</body></html>

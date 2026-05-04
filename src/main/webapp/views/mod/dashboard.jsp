@@ -26,6 +26,7 @@ Integer moderatorBulletinCount = (Integer) request.getAttribute("moderatorBullet
             <div class="stack-list">
                 <a class="list-row" href="${pageContext.request.contextPath}/moderator/approval-queue"><strong>Open approval queue</strong><span><%= moderatorPendingCount != null ? moderatorPendingCount.intValue() : 0 %> items</span></a>
                 <a class="list-row" href="${pageContext.request.contextPath}/moderator/reported-posts"><strong>Review reported posts</strong><span><%= moderatorReportCount != null ? moderatorReportCount.intValue() : 0 %> open</span></a>
+                <a class="list-row" href="${pageContext.request.contextPath}/moderator/banned-members"><strong>Manage banned members</strong><span><%= moderatorBanCount != null ? moderatorBanCount.intValue() : 0 %> active</span></a>
                 <a class="list-row" href="${pageContext.request.contextPath}/moderator/send-bulletin"><strong>Send community bulletin</strong><span><%= moderatorBulletinCount != null ? moderatorBulletinCount.intValue() : 0 %> sent</span></a>
             </div>
         </div>

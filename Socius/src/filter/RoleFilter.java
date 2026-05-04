@@ -41,19 +41,19 @@ public class RoleFilter implements Filter {
         }
 
         User user = (User) currentUser;
-        String path = httpRequest.getRequestURI();
-        boolean adminArea = path.contains("/admin/");
-        boolean moderatorArea = path.contains("/moderator/");
+        String servletPath = httpRequest.getServletPath();
+        boolean adminArea = "/admin".equals(servletPath);
+        boolean moderatorArea = "/moderator".equals(servletPath);
 
         if (adminArea && !"admin".equals(user.getRole())) {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/discover");
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/member/home");
             return;
         }
 
         if (moderatorArea
             && !"admin".equals(user.getRole())
             && !"moderator".equals(user.getRole())) {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/discover");
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/member/home");
             return;
         }
 

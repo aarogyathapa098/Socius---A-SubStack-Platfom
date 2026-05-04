@@ -2,5 +2,6 @@
 /Socius/target/
 /Socius/.codex-build/
 /Socius/.codex-verify/
+/Socius/.codex-verify-db/
 /Socius/WebContent/
 /Socius.zip

@@ -163,7 +163,7 @@ int approvedPostCount = approvedPostCountAttr != null ? approvedPostCountAttr.in
             <% } else { %>
                 <div class="empty-state">
                     <h3>No communities matched</h3>
-                    <p>Try a different search term or create a new community from the admin area.</p>
+                    <p>Try a different search term or create a new community from your workspace.</p>
                 </div>
             <% } %>
         </section>

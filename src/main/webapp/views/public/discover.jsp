@@ -28,7 +28,7 @@ int openReportCount = openReportCountAttr != null ? openReportCountAttr.intValue
         <div class="public-hero__actions">
             <a class="button button--primary" href="${pageContext.request.contextPath}/community">Browse communities</a>
             <% if (currentUser != null) { %>
-                <a class="button button--ghost" href="${pageContext.request.contextPath}<%= dashboardPath %>">Open workspace</a>
+                <a class="button button--ghost" href="${pageContext.request.contextPath}/member/home">Open workspace</a>
                 <a class="button button--ghost" href="${pageContext.request.contextPath}<%= createCommunityPath %>">Add community</a>
             <% } else { %>
                 <a class="button button--ghost" href="${pageContext.request.contextPath}/login">Sign in</a>
@@ -109,7 +109,7 @@ int openReportCount = openReportCountAttr != null ? openReportCountAttr.intValue
             <% } else { %>
                 <div class="empty-state">
                     <h3>No communities yet</h3>
-                    <p>Create a community from the admin area to make it appear here.</p>
+                    <p>Create a community from your workspace to make it appear here after approval.</p>
                 </div>
             <% } %>
         </section>

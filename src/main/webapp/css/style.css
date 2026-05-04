@@ -366,6 +366,13 @@ textarea {
     padding: 32px;
 }
 
+.panel-title {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    font-size: clamp(1.7rem, 3vw, 2.4rem);
+    line-height: 1.05;
+}
+
 .section-card--hero-copy {
     padding: 36px;
 }
@@ -1543,6 +1550,12 @@ blockquote,
     color: var(--mulberry);
 }
 
+.side-rail__link--role {
+    margin-top: 6px;
+    border: 1px solid rgba(155, 34, 38, 0.16);
+    background: #ffffff;
+}
+
 .side-rail__link .material-symbols-outlined,
 .side-rail__utility .material-symbols-outlined {
     width: 22px;
@@ -1683,6 +1696,16 @@ blockquote,
     border-spacing: 0;
 }
 
+.table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.table-scroll .data-table {
+    min-width: 680px;
+}
+
 .data-table th {
     background: #fbf8f7;
     color: var(--muted);
@@ -1727,7 +1750,7 @@ textarea:focus {
 
 .feed-shell {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 320px;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
     gap: 24px;
     align-items: start;
 }
@@ -1884,9 +1907,30 @@ textarea:focus {
 .feed-aside {
     position: sticky;
     top: calc(var(--topbar-height) + 24px);
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 16px;
+}
+
+.feed-aside .section-card h2 {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    font-size: clamp(1.8rem, 4vw, 2.7rem);
+    line-height: 1;
+}
+
+.feed-aside .list-row {
+    min-width: 0;
+}
+
+.feed-aside .list-row > div {
+    min-width: 0;
+}
+
+.feed-aside .list-row strong,
+.feed-aside .list-row .muted {
+    overflow-wrap: anywhere;
 }
 
 @media (max-width: 1120px) {
@@ -2106,4 +2150,70 @@ textarea:focus {
 
 .search-page-form {
     min-width: min(420px, 100%);
+}
+
+.toggle-panel {
+    margin: 22px 0;
+}
+
+.toggle-panel[hidden] {
+    display: none;
+}
+
+.section-card--nested {
+    padding: 24px;
+    background: #fbf8f7;
+}
+
+/* Overflow fixes for dense dashboard panels */
+.section-card,
+.split-section > *,
+.feed-shell > *,
+.feed-aside,
+.feed-aside .section-card,
+.table-scroll {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.admin-community-layout {
+    grid-template-columns: minmax(260px, 0.7fr) minmax(0, 1.3fr);
+}
+
+.section-header .panel-title,
+.feed-aside .section-header h2,
+.feed-aside .section-card > h2 {
+    max-width: 100%;
+    font-size: clamp(1.55rem, 2.8vw, 2.25rem);
+    line-height: 1.05;
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+.table-scroll {
+    display: block;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+}
+
+.table-scroll .data-table {
+    width: max-content;
+    min-width: 100%;
+}
+
+.table-scroll .data-table th,
+.table-scroll .data-table td {
+    white-space: nowrap;
+}
+
+.table-scroll .data-table td:first-child,
+.table-scroll .data-table td:nth-child(2) {
+    min-width: 140px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.feed-aside .list-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
 }

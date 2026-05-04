@@ -20,6 +20,12 @@ public class LoginController extends BaseController {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session != null && session.getAttribute("currentUser") instanceof User) {
+            redirect(request, response, "/member/home");
+            return;
+        }
+
         request.setAttribute("showSidebar", Boolean.FALSE);
         request.setAttribute("pageTitle", "Sign In");
         request.setAttribute("databaseConnected", Boolean.valueOf(DBConnection.isAvailable()));
@@ -47,16 +53,6 @@ public class LoginController extends BaseController {
 
         HttpSession session = request.getSession();
         session.setAttribute("currentUser", user);
-
-        if ("admin".equals(user.getRole())) {
-            redirect(request, response, "/admin/dashboard");
-            return;
-        }
-
-        if ("moderator".equals(user.getRole())) {
-            redirect(request, response, "/moderator/dashboard");
-            return;
-        }
 
         redirect(request, response, "/member/home");
     }

@@ -10,35 +10,46 @@ String submittedCommunityDescription = (String) request.getAttribute("submittedC
 String submittedCommunityGuidelines = (String) request.getAttribute("submittedCommunityGuidelines");
 %>
 <main class="content-shell">
-    <section class="split-section">
-        <div class="section-card">
-            <p class="eyebrow">Create Community</p>
-            <% if (communityError != null) { %>
-                <div class="flash flash--warning"><%= communityError %></div>
-            <% } %>
-            <form class="stack-form" action="${pageContext.request.contextPath}/admin/manage-communities" method="post">
-                <label for="communityName">Name</label>
-                <input id="communityName" name="name" type="text" placeholder="Inclusive Design" value="<%= submittedCommunityName != null ? submittedCommunityName : "" %>" required>
-
-                <label for="communityDesc">Description</label>
-                <textarea id="communityDesc" name="description" rows="4" placeholder="Describe the purpose of the community." required><%= submittedCommunityDescription != null ? submittedCommunityDescription : "" %></textarea>
-
-                <label for="communityGuidelines">Guidelines</label>
-                <textarea id="communityGuidelines" name="guidelines" rows="5" placeholder="State moderation expectations."><%= submittedCommunityGuidelines != null ? submittedCommunityGuidelines : "" %></textarea>
-
-                <div class="form-actions">
-                    <button class="button button--primary" type="submit">Create community</button>
-                </div>
-            </form>
+    <section class="section-card">
+        <div class="section-header">
+            <div>
+                <p class="eyebrow">Existing Communities</p>
+                <h2 class="panel-title">Live database communities.</h2>
+            </div>
+            <button class="button button--primary" type="button" data-toggle-target="createCommunityPanel">
+                <span class="material-symbols-outlined">add</span>
+                <span>Create community</span>
+            </button>
         </div>
 
-        <div class="section-card">
-            <div class="section-header">
-                <div>
-                    <p class="eyebrow">Existing Communities</p>
-                    <h2>Live database communities.</h2>
-                </div>
+        <div
+            id="createCommunityPanel"
+            class="toggle-panel <%= communityError != null ? "is-open" : "" %>"
+            <%= communityError != null ? "" : "hidden" %>
+        >
+            <div class="section-card section-card--nested">
+                <p class="eyebrow">Create Community</p>
+                <% if (communityError != null) { %>
+                    <div class="flash flash--warning"><%= communityError %></div>
+                <% } %>
+                <form class="stack-form" action="${pageContext.request.contextPath}/admin/manage-communities" method="post">
+                    <label for="communityName">Name</label>
+                    <input id="communityName" name="name" type="text" placeholder="Inclusive Design" value="<%= submittedCommunityName != null ? submittedCommunityName : "" %>" required>
+
+                    <label for="communityDesc">Description</label>
+                    <textarea id="communityDesc" name="description" rows="4" placeholder="Describe the purpose of the community." required><%= submittedCommunityDescription != null ? submittedCommunityDescription : "" %></textarea>
+
+                    <label for="communityGuidelines">Guidelines</label>
+                    <textarea id="communityGuidelines" name="guidelines" rows="5" placeholder="State moderation expectations."><%= submittedCommunityGuidelines != null ? submittedCommunityGuidelines : "" %></textarea>
+
+                    <div class="form-actions">
+                        <button class="button button--primary" type="submit">Create community</button>
+                    </div>
+                </form>
             </div>
+        </div>
+
+        <div class="table-scroll">
             <table class="data-table">
                 <thead>
                     <tr>
@@ -89,4 +100,16 @@ String submittedCommunityGuidelines = (String) request.getAttribute("submittedCo
         </div>
     </section>
 </main>
+<script>
+    document.querySelectorAll('[data-toggle-target]').forEach((button) => {
+        button.addEventListener('click', () => {
+            const panel = document.getElementById(button.dataset.toggleTarget);
+            if (!panel) {
+                return;
+            }
+            panel.hidden = !panel.hidden;
+            panel.classList.toggle('is-open', !panel.hidden);
+        });
+    });
+</script>
 <%@ include file="../common/footer.jsp" %>

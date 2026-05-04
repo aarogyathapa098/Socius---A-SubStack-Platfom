@@ -31,7 +31,12 @@ public class DiscoverController extends BaseController {
             view = "/views/public/contact.jsp";
             pageTitle = "Contact";
         } else {
-            loadDiscoverData(request);
+            try {
+                loadDiscoverData(request);
+            } catch (RuntimeException exception) {
+                showDatabaseError(request, response, exception);
+                return;
+            }
         }
 
         request.setAttribute("pageTitle", pageTitle);
@@ -43,27 +48,47 @@ public class DiscoverController extends BaseController {
         PostDAO postDAO = new PostDAO();
         ReportDAO reportDAO = new ReportDAO();
 
-        try {
-            int communityCount = communityDAO.getTotalCommunityCount();
-            int approvedPostCount = postDAO.getApprovedPostCount();
-            int pendingPostCount = postDAO.getPendingPostCount();
-            int openReportCount = reportDAO.getOpenReportCount();
-            List<Community> featuredCommunities = communityDAO.getAllCommunities(6, 0);
-            List<Post> recentPosts = postDAO.getRecentApprovedPosts(6);
+        int communityCount = communityDAO.getTotalCommunityCount();
+        int approvedPostCount = postDAO.getApprovedPostCount();
+        int pendingPostCount = postDAO.getPendingPostCount();
+        int openReportCount = reportDAO.getOpenReportCount();
+        List<Community> featuredCommunities = communityDAO.getAllCommunities(6, 0);
+        List<Post> recentPosts = postDAO.getRecentApprovedPosts(6);
 
-            request.setAttribute("databaseConnected", Boolean.TRUE);
-            request.setAttribute("communityCount", Integer.valueOf(communityCount));
-            request.setAttribute("approvedPostCount", Integer.valueOf(approvedPostCount));
-            request.setAttribute("pendingPostCount", Integer.valueOf(pendingPostCount));
-            request.setAttribute("openReportCount", Integer.valueOf(openReportCount));
-            request.setAttribute("featuredCommunities", featuredCommunities);
-            request.setAttribute("recentPosts", recentPosts);
+        request.setAttribute("databaseConnected", Boolean.TRUE);
+        request.setAttribute("communityCount", Integer.valueOf(communityCount));
+        request.setAttribute("approvedPostCount", Integer.valueOf(approvedPostCount));
+        request.setAttribute("pendingPostCount", Integer.valueOf(pendingPostCount));
+        request.setAttribute("openReportCount", Integer.valueOf(openReportCount));
+        request.setAttribute("featuredCommunities", featuredCommunities);
+        request.setAttribute("recentPosts", recentPosts);
 
-            if (!recentPosts.isEmpty()) {
-                request.setAttribute("featurePost", recentPosts.get(0));
-            }
-        } catch (RuntimeException exception) {
-            throw exception;
+        if (!recentPosts.isEmpty()) {
+            request.setAttribute("featurePost", recentPosts.get(0));
         }
+    }
+
+    private void showDatabaseError(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        RuntimeException exception
+    ) throws ServletException, IOException {
+        request.setAttribute("showSidebar", Boolean.FALSE);
+        request.setAttribute("pageTitle", "Database Offline");
+        request.setAttribute(
+            "databaseErrorMessage",
+            "Socius lost its MySQL connection while loading Discover. "
+                + "Restart MySQL and refresh the page. Detail: " + rootMessage(exception)
+        );
+        response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+        forward(request, response, "/views/public/database-error.jsp");
+    }
+
+    private String rootMessage(Throwable throwable) {
+        Throwable current = throwable;
+        while (current.getCause() != null) {
+            current = current.getCause();
+        }
+        return current.getMessage() != null ? current.getMessage() : throwable.getMessage();
     }
 }

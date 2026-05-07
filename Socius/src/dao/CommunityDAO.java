@@ -97,6 +97,27 @@ public class CommunityDAO {
         return null;
     }
 
+    public Community getCommunityByName(String name) {
+        String sql = COMMUNITY_SELECT + "WHERE LOWER(c.name) = LOWER(?)";
+
+        try (
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setString(1, name);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return mapCommunity(resultSet);
+                }
+            }
+        } catch (SQLException exception) {
+            throw new RuntimeException("Failed to load community by name.", exception);
+        }
+
+        return null;
+    }
+
     public Community getApprovedCommunityBySlug(String slug) {
         String sql = COMMUNITY_SELECT + "WHERE c.slug = ? AND c.approval_status = 'approved'";
 

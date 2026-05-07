@@ -267,6 +267,12 @@ public class MemberController extends BaseController {
         }
 
         CommunityDAO communityDAO = new CommunityDAO();
+        if (communityDAO.getCommunityByName(name) != null) {
+            request.setAttribute("communityError", "Community name already exists.");
+            forward(request, response, "/views/member/create-community.jsp");
+            return;
+        }
+
         String slug = buildUniqueSlug(name, communityDAO);
 
         Community community = new Community();
@@ -281,7 +287,15 @@ public class MemberController extends BaseController {
         community.setApprovalStatus("pending");
         community.setCreatedBy(user.getUserId());
 
-        int communityId = communityDAO.insertCommunity(community);
+        int communityId;
+        try {
+            communityId = communityDAO.insertCommunity(community);
+        } catch (RuntimeException exception) {
+            request.setAttribute("communityError", "Community name already exists.");
+            forward(request, response, "/views/member/create-community.jsp");
+            return;
+        }
+
         if (communityId <= 0) {
             request.setAttribute("communityError", "The community could not be created. Please try again.");
             forward(request, response, "/views/member/create-community.jsp");

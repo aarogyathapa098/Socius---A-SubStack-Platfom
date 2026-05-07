@@ -21,7 +21,8 @@ boolean adminPortalHeader = headerRoutePath.contains("/admin/") || headerRoutePa
 boolean moderatorPortalHeader = headerRoutePath.contains("/moderator/") || headerRoutePath.contains("/views/mod/");
 boolean authPageHeader = currentHeaderPath.contains("/login")
     || currentHeaderPath.contains("/register")
-    || currentHeaderPath.contains("/forgot-password");
+    || currentHeaderPath.contains("/forgot-password")
+    || currentHeaderPath.contains("/change-password");
 String brandPath = currentUser != null ? "/member/home" : (authPageHeader ? "/login" : "/discover");
 String accountPath = "/member/profile";
 String createCommunityPath = "/member/create-community";

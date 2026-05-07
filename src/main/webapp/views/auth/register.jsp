@@ -8,6 +8,7 @@
         </div>
         <%
         String registerError = (String) request.getAttribute("registerError");
+        String submittedDisplayName = (String) request.getAttribute("submittedDisplayName");
         String submittedUsername = (String) request.getAttribute("submittedUsername");
         String submittedEmail = (String) request.getAttribute("submittedEmail");
         String submittedPhoneNumber = (String) request.getAttribute("submittedPhoneNumber");
@@ -16,6 +17,9 @@
             <div class="flash flash--warning"><%= registerError %></div>
         <% } %>
         <form class="stack-form" action="${pageContext.request.contextPath}/register" method="post">
+            <label for="regDisplayName">Name</label>
+            <input id="regDisplayName" name="displayName" type="text" placeholder="Your name" value="<%= submittedDisplayName != null ? submittedDisplayName : "" %>" required maxlength="100">
+
             <label for="regUsername">Username</label>
             <input id="regUsername" name="username" type="text" placeholder="3-30 characters, letters, numbers, underscore" value="<%= submittedUsername != null ? submittedUsername : "" %>" required>
 

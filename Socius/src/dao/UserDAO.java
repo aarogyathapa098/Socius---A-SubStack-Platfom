@@ -159,6 +159,18 @@ public class UserDAO {
     }
 
     public void updatePassword(int userId, String passwordHash) {
+        String sql = "UPDATE users SET password_hash = ?, reset_token = NULL, reset_token_expires_at = NULL WHERE user_id = ?";
+
+        try (
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setString(1, passwordHash);
+            statement.setInt(2, userId);
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new RuntimeException("Failed to update password.", exception);
+        }
     }
 
     public void updateResetToken(int userId, String resetToken) {

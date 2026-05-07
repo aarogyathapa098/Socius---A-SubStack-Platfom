@@ -10,6 +10,7 @@ Integer memberPostCount = (Integer) request.getAttribute("memberPostCount");
 Integer memberPendingCount = (Integer) request.getAttribute("memberPendingCount");
 Integer memberCommunityCount = (Integer) request.getAttribute("memberCommunityCount");
 String profileError = (String) request.getAttribute("profileError");
+String username = currentUser != null && currentUser.getUsername() != null ? currentUser.getUsername() : "";
 String displayName = currentUser != null && currentUser.getDisplayName() != null ? currentUser.getDisplayName() : "";
 String phoneNumber = currentUser != null && currentUser.getPhoneNumber() != null ? currentUser.getPhoneNumber() : "";
 String bio = currentUser != null && currentUser.getBio() != null ? currentUser.getBio() : "";
@@ -36,6 +37,9 @@ String bio = currentUser != null && currentUser.getBio() != null ? currentUser.g
                 <div class="flash flash--warning"><%= profileError %></div>
             <% } %>
             <form class="stack-form" action="${pageContext.request.contextPath}/member/profile" method="post">
+                <label for="profileUsername">Username</label>
+                <input id="profileUsername" type="text" value="<%= username %>" readonly>
+
                 <label for="profileName">Display name</label>
                 <input id="profileName" name="displayName" type="text" value="<%= displayName %>" required maxlength="100">
 

@@ -1,17 +1,15 @@
 <%@ page import="java.util.List" %>
-<%@ page import="model.Community" %>
 <%@ page import="model.Post" %>
 <%@ include file="../common/header.jsp" %>
 <%@ include file="../common/sidebar.jsp" %>
 <%
 List<Post> feedPosts = (List<Post>) request.getAttribute("feedPosts");
-List<Community> suggestedCommunities = (List<Community>) request.getAttribute("suggestedCommunities");
 String feedMode = (String) request.getAttribute("feedMode");
 if (feedMode == null) {
     feedMode = "personalized";
 }
 %>
-<main class="content-shell">
+<main class="content-shell content-shell--home">
     <section class="feed-shell">
         <div class="feed-stream">
             <div class="feed-heading">
@@ -85,41 +83,6 @@ if (feedMode == null) {
             <% } %>
         </div>
 
-        <aside class="feed-aside">
-            <section class="section-card">
-                <p class="eyebrow">Profile</p>
-                <h2><%= currentUser != null ? currentUser.getDisplayName() : "Member" %></h2>
-                <p class="muted">Your dashboard now lives in the profile section, with personal stats and account details together.</p>
-                <a class="button button--ghost" href="${pageContext.request.contextPath}/member/profile">Open profile dashboard</a>
-            </section>
-
-            <section class="section-card">
-                <div class="section-header">
-                    <div>
-                        <p class="eyebrow">Suggested</p>
-                        <h2>Communities</h2>
-                    </div>
-                </div>
-                <div class="stack-list">
-                    <% if (suggestedCommunities != null && !suggestedCommunities.isEmpty()) { %>
-                        <% for (Community community : suggestedCommunities) { %>
-                            <a class="list-row" href="${pageContext.request.contextPath}/community?slug=<%= community.getSlug() %>">
-                                <div>
-                                    <strong><%= community.getName() %></strong>
-                                    <p class="muted"><%= community.getMemberCount() %> members</p>
-                                </div>
-                                <span class="material-symbols-outlined">arrow_forward</span>
-                            </a>
-                        <% } %>
-                    <% } else { %>
-                        <div class="empty-state empty-state--soft">
-                            <h3>No suggestions yet</h3>
-                            <p>Communities will appear here after they are created.</p>
-                        </div>
-                    <% } %>
-                </div>
-            </section>
-        </aside>
     </section>
 </main>
 <%@ include file="../common/footer.jsp" %>

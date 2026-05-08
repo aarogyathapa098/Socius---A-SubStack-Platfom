@@ -19,11 +19,6 @@ boolean canModerate = "moderator".equals(sidebarRole) || "admin".equals(sidebarR
 boolean canAdmin = "admin".equals(sidebarRole);
 
 String sidebarHeading = adminPortal ? "Admin Hub" : (moderatorPortal ? "Moderator Hub" : "Member Hub");
-String sidebarMessage = adminPortal
-    ? "System controls for communities, users, moderators, and reports."
-    : (moderatorPortal
-        ? "Moderation controls for reviews, reports, bans, and bulletins."
-        : "Move through the public feed, your posts, communities, and profile with the same workspace across every role.");
 %>
 <aside class="side-rail" aria-label="<%= sidebarHeading %> navigation">
     <div class="side-rail__header">
@@ -35,8 +30,6 @@ String sidebarMessage = adminPortal
             <p><%= "guest".equals(sidebarRole) ? "Civic community" : sidebarRole + " workspace" %></p>
         </div>
     </div>
-
-    <p class="side-rail__message"><%= sidebarMessage %></p>
 
     <nav class="side-rail__nav">
         <% if (adminPortal) { %>
@@ -104,10 +97,6 @@ String sidebarMessage = adminPortal
                 <span class="material-symbols-outlined">diversity_3</span>
                 <span>My communities</span>
             </a>
-            <a class="side-rail__link <%= currentPath.contains("/member/create-post") ? "is-active" : "" %>" href="${pageContext.request.contextPath}/member/create-post">
-                <span class="material-symbols-outlined">edit_square</span>
-                <span>Create post</span>
-            </a>
             <a class="side-rail__link <%= currentPath.contains("/member/create-community") ? "is-active" : "" %>" href="${pageContext.request.contextPath}/member/create-community">
                 <span class="material-symbols-outlined">add_circle</span>
                 <span>Create community</span>
@@ -137,18 +126,6 @@ String sidebarMessage = adminPortal
         <% } %>
     </nav>
 
-    <div class="side-rail__card">
-        <p>Access model</p>
-        <strong><%= adminPortal ? "Administration" : (moderatorPortal ? "Moderation" : "Participation") %></strong>
-        <span>
-            <%= adminPortal
-                ? "Only admin controls are shown in this portal."
-                : (moderatorPortal
-                    ? "Only moderator controls are shown in this portal."
-                    : "Writing, joining, profile management, and notifications stay consistent for every signed-in user.") %>
-        </span>
-    </div>
-
     <div class="side-rail__footer">
         <% if (adminPortal) { %>
             <a class="button button--primary" href="${pageContext.request.contextPath}/admin/manage-communities">
@@ -161,10 +138,6 @@ String sidebarMessage = adminPortal
                 <span>Review queue</span>
             </a>
         <% } else { %>
-            <a class="button button--primary" href="${pageContext.request.contextPath}/member/create-post">
-                <span class="material-symbols-outlined">edit_square</span>
-                <span>Create post</span>
-            </a>
             <a class="side-rail__utility" href="${pageContext.request.contextPath}/contact">
                 <span class="material-symbols-outlined">help</span>
                 <span>Help center</span>

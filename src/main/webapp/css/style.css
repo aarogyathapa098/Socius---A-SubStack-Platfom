@@ -1450,6 +1450,12 @@ blockquote,
     gap: 48px;
 }
 
+.socius-body--with-sidebar .content-shell--home {
+    width: auto;
+    max-width: none;
+    margin: 0 32px;
+}
+
 .content-shell--public {
     width: min(1120px, 100%);
     margin: 0 auto;
@@ -1750,7 +1756,7 @@ textarea:focus {
 
 .feed-shell {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
+    grid-template-columns: minmax(0, 1fr);
     gap: 24px;
     align-items: start;
 }

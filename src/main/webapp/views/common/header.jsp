@@ -29,9 +29,7 @@ boolean authPageHeader = currentHeaderPath.contains("/login")
 String brandPath = currentUser != null ? "/member/home" : (authPageHeader ? "/login" : "/discover");
 String accountPath = "/member/profile";
 String createCommunityPath = "/member/create-community";
-String primaryActionLabel = "+ Create";
 String profileMenuLabel = "Profile";
-boolean showPrimaryAction = true;
 if (adminPortalHeader) {
     accountPath = "/admin/dashboard";
     createCommunityPath = "/admin/manage-communities";
@@ -40,7 +38,6 @@ if (adminPortalHeader) {
     accountPath = "/moderator/dashboard";
     createCommunityPath = "/moderator/approval-queue";
     profileMenuLabel = "Moderator";
-    showPrimaryAction = false;
 } else if (adminUserHeader) {
     profileMenuLabel = "Admin";
 } else if (moderatorUserHeader) {
@@ -61,7 +58,7 @@ if (session != null && session.getAttribute("flashSuccess") != null) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css?v=navbar-clean-2">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css?v=home-width-1">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/discover.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/community.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/post.css">
@@ -94,11 +91,6 @@ if (session != null && session.getAttribute("flashSuccess") != null) {
             <% } %>
             <div class="topbar__actions">
                 <% if (currentUser != null) { %>
-                    <% if (showPrimaryAction) { %>
-                        <a class="topbar__chip topbar__chip--primary" href="${pageContext.request.contextPath}<%= createCommunityPath %>">
-                            <span><%= primaryActionLabel %></span>
-                        </a>
-                    <% } %>
                     <a class="topbar__icon-link" href="${pageContext.request.contextPath}/notifications" aria-label="Notifications">
                         <span class="material-symbols-outlined">notifications</span>
                         <span id="notificationCount" class="notification-count" hidden>0</span>
@@ -121,12 +113,6 @@ if (session != null && session.getAttribute("flashSuccess") != null) {
                             <a href="${pageContext.request.contextPath}/logout">Logout</a>
                         </div>
                     </details>
-                <% } else { %>
-                    <a class="topbar__chip" href="${pageContext.request.contextPath}/register">Join</a>
-                    <a class="topbar__account" href="${pageContext.request.contextPath}/login">
-                        <span class="material-symbols-outlined">account_circle</span>
-                        <span>Sign in</span>
-                    </a>
                 <% } %>
                 <% if (!authPageHeader) { %>
                     <details class="topbar__mobile-menu">

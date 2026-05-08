@@ -32,6 +32,7 @@ int openReportCount = openReportCountAttr != null ? openReportCountAttr.intValue
                 <a class="button button--ghost" href="${pageContext.request.contextPath}<%= createCommunityPath %>">Add community</a>
             <% } else { %>
                 <a class="button button--ghost" href="${pageContext.request.contextPath}/login">Sign in</a>
+                <a class="button button--ghost" href="${pageContext.request.contextPath}/register">Join</a>
             <% } %>
         </div>
     </section>

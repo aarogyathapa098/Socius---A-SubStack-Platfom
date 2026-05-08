@@ -1,9 +1,14 @@
 <%@ page import="java.util.List" %>
+<%@ page import="java.sql.Timestamp" %>
+<%@ page import="java.time.ZoneId" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="model.Post" %>
 <%@ include file="../common/header.jsp" %>
 <%@ include file="../common/sidebar.jsp" %>
 <%
 List<Post> memberPosts = (List<Post>) request.getAttribute("memberPosts");
+ZoneId nepalZone = ZoneId.of("Asia/Kathmandu");
+DateTimeFormatter nepalDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 %>
 <main class="content-shell">
     <section class="section-header">
@@ -21,7 +26,7 @@ List<Post> memberPosts = (List<Post>) request.getAttribute("memberPosts");
                     <th>Title</th>
                     <th>Community</th>
                     <th>Status</th>
-                    <th>Updated</th>
+                    <th>Updated (Nepal)</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -45,12 +50,19 @@ List<Post> memberPosts = (List<Post>) request.getAttribute("memberPosts");
                                     <%= post.getStatus() %>
                                 </span>
                             </td>
-                            <td><%= post.getUpdatedAt() != null ? post.getUpdatedAt() : post.getCreatedAt() %></td>
+                            <%
+                            Timestamp updatedAt = post.getUpdatedAt() != null ? post.getUpdatedAt() : post.getCreatedAt();
+                            String nepalUpdatedAt = updatedAt != null
+                                ? updatedAt.toInstant().atZone(nepalZone).format(nepalDateFormatter)
+                                : "";
+                            %>
+                            <td><%= nepalUpdatedAt %></td>
                             <td>
                                 <% if ("approved".equals(post.getStatus())) { %>
                                     <a class="text-link" href="${pageContext.request.contextPath}/post?id=<%= post.getPostId() %>">View</a>
+                                    <a class="text-link" href="${pageContext.request.contextPath}/member/edit-post?id=<%= post.getPostId() %>">Edit</a>
                                 <% } else { %>
-                                    <a class="text-link" href="${pageContext.request.contextPath}/member/edit-post">Edit</a>
+                                    <a class="text-link" href="${pageContext.request.contextPath}/member/edit-post?id=<%= post.getPostId() %>">Edit</a>
                                 <% } %>
                             </td>
                         </tr>

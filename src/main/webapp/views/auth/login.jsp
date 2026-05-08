@@ -2,6 +2,8 @@
 <%
 String loginError = (String) request.getAttribute("loginError");
 String submittedUsername = (String) request.getAttribute("submittedUsername");
+Long lockRemainingSeconds = (Long) request.getAttribute("lockRemainingSeconds");
+boolean accountLocked = lockRemainingSeconds != null && lockRemainingSeconds.longValue() > 0;
 %>
 <main class="auth-shell">
     <section class="auth-card">
@@ -12,7 +14,12 @@ String submittedUsername = (String) request.getAttribute("submittedUsername");
         </div>
 
         <% if (loginError != null) { %>
-            <div class="flash flash--warning"><%= loginError %></div>
+            <div class="flash flash--warning" <%= accountLocked ? "data-persistent=\"true\"" : "" %>>
+                <%= loginError %>
+                <% if (accountLocked) { %>
+                    <span id="accountLockTimer" data-remaining-seconds="<%= lockRemainingSeconds.longValue() %>"></span>
+                <% } %>
+            </div>
         <% } %>
 
         <form class="stack-form" action="${pageContext.request.contextPath}/login" method="post">
@@ -37,7 +44,7 @@ String submittedUsername = (String) request.getAttribute("submittedUsername");
 
             <div class="form-actions form-actions--spread">
                 <a class="text-link" href="${pageContext.request.contextPath}/forgot-password">Forgot password?</a>
-                <button class="button button--primary" type="submit">Sign in</button>
+                <button id="loginSubmitButton" class="button button--primary" type="submit" <%= accountLocked ? "disabled" : "" %>>Sign in</button>
             </div>
         </form>
 

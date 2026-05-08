@@ -21,6 +21,7 @@ String submittedImageAltText = (String) request.getAttribute("submittedImageAltT
     <% if (postError != null) { %>
         <div class="flash flash--warning"><%= postError %></div>
     <% } %>
+    <div id="postImageSizeWarning" class="flash flash--warning" hidden></div>
 
     <section class="section-card">
         <form class="stack-form" action="${pageContext.request.contextPath}/member/create-post" method="post" enctype="multipart/form-data">

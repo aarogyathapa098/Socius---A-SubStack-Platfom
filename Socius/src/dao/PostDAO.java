@@ -104,6 +104,28 @@ public class PostDAO {
         return null;
     }
 
+    public Post getPostForAuthor(int postId, int authorId) {
+        String sql = POST_SELECT + "WHERE p.post_id = ? AND p.author_id = ? AND p.status <> 'removed'";
+
+        try (
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setInt(1, postId);
+            statement.setInt(2, authorId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return mapPost(resultSet);
+                }
+            }
+        } catch (SQLException exception) {
+            throw new RuntimeException("Failed to load post for editing.", exception);
+        }
+
+        return null;
+    }
+
     public List<Post> getApprovedPostsByCommunity(int communityId, int limit, int offset) {
         List<Post> posts = new ArrayList<Post>();
         String sql =
@@ -379,6 +401,30 @@ public class PostDAO {
             statement.executeUpdate();
         } catch (SQLException exception) {
             throw new RuntimeException("Failed to update post status.", exception);
+        }
+    }
+
+    public void updatePost(Post post) {
+        String sql =
+            "UPDATE posts SET title = ?, content = ?, post_type = ?, image_url = ?, image_alt_text = ?, "
+                + "status = ?, reviewed_by = NULL, reviewed_at = NULL, rejection_reason = NULL "
+                + "WHERE post_id = ? AND author_id = ? AND status <> 'removed'";
+
+        try (
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setString(1, post.getTitle());
+            statement.setString(2, post.getContent());
+            statement.setString(3, post.getPostType() != null ? post.getPostType() : "text");
+            statement.setString(4, post.getImageUrl());
+            statement.setString(5, post.getImageAltText());
+            statement.setString(6, post.getStatus() != null ? post.getStatus() : "pending");
+            statement.setInt(7, post.getPostId());
+            statement.setInt(8, post.getAuthorId());
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new RuntimeException("Failed to update post.", exception);
         }
     }
 

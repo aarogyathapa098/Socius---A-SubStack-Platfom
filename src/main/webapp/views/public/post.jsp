@@ -30,6 +30,11 @@ String currentVoteType = currentVote != null ? currentVote.getVoteType() : "";
                     <span><%= post.getUpvotes() - post.getDownvotes() %> score</span>
                     <span><%= post.getViewCount() %> views</span>
                 </div>
+                <% if (currentUser != null && currentUser.getUserId() == post.getAuthorId()) { %>
+                    <div class="form-actions">
+                        <a class="button button--ghost" href="${pageContext.request.contextPath}/member/edit-post?id=<%= post.getPostId() %>">Edit</a>
+                    </div>
+                <% } %>
             </div>
 
             <% if (post.hasImage()) { %>

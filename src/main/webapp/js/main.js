@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const flash = document.querySelector(".flash");
+    const flash = document.querySelector(".flash:not([hidden]):not([data-persistent='true'])");
     if (flash) {
         setTimeout(function () {
             flash.style.transition = "opacity 0.35s ease";
@@ -22,6 +22,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
         bulletinBody.addEventListener("input", syncPreview);
         syncPreview();
+    }
+
+    const accountLockTimer = document.getElementById("accountLockTimer");
+    if (accountLockTimer) {
+        const loginSubmitButton = document.getElementById("loginSubmitButton");
+        let remainingSeconds = Math.max(0, Number(accountLockTimer.dataset.remainingSeconds) || 0);
+        if (loginSubmitButton) {
+            loginSubmitButton.disabled = remainingSeconds > 0;
+        }
+        const syncLockTimer = function () {
+            const minutes = Math.floor(remainingSeconds / 60);
+            const seconds = remainingSeconds % 60;
+            accountLockTimer.textContent =
+                " Try again in " + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0") + ".";
+
+            if (remainingSeconds <= 0) {
+                accountLockTimer.textContent = " You can try signing in again now.";
+                if (loginSubmitButton) {
+                    loginSubmitButton.disabled = false;
+                    loginSubmitButton.removeAttribute("disabled");
+                }
+                window.clearInterval(lockTimerInterval);
+                return;
+            }
+
+            remainingSeconds -= 1;
+        };
+        const lockTimerInterval = window.setInterval(syncLockTimer, 1000);
+        syncLockTimer();
     }
 
     const searchInput = document.getElementById("globalSearchInput");
@@ -121,6 +150,51 @@ document.addEventListener("DOMContentLoaded", function () {
                 clearSuggestions();
             }
         });
+    }
+
+    const postImageInput = document.getElementById("postImage");
+    const postImageSizeWarning = document.getElementById("postImageSizeWarning");
+    const maxPostImageSize = 5 * 1024 * 1024;
+
+    const showPostImageWarning = function () {
+        if (postImageSizeWarning) {
+            postImageSizeWarning.textContent = "Keep the file below 5 MB.";
+            postImageSizeWarning.hidden = false;
+            postImageSizeWarning.style.opacity = "1";
+        } else {
+            window.alert("Keep the file below 5 MB.");
+        }
+    };
+
+    const validatePostImageSize = function () {
+        if (!postImageInput || !postImageInput.files || postImageInput.files.length === 0) {
+            return true;
+        }
+
+        if (postImageInput.files[0].size > maxPostImageSize) {
+            showPostImageWarning();
+            postImageInput.value = "";
+            return false;
+        }
+
+        if (postImageSizeWarning) {
+            postImageSizeWarning.hidden = true;
+            postImageSizeWarning.textContent = "";
+        }
+        return true;
+    };
+
+    if (postImageInput) {
+        const postForm = postImageInput.closest("form");
+        postImageInput.addEventListener("change", validatePostImageSize);
+
+        if (postForm) {
+            postForm.addEventListener("submit", function (event) {
+                if (!validatePostImageSize()) {
+                    event.preventDefault();
+                }
+            });
+        }
     }
 
     const notificationCount = document.getElementById("notificationCount");

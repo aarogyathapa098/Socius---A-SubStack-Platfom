@@ -20,6 +20,7 @@ import model.CommunityModerator;
 import model.Post;
 import model.Report;
 import model.User;
+import util.ValidationUtil;
 
 @WebServlet("/admin/*")
 public class AdminController extends BaseController {
@@ -35,7 +36,7 @@ public class AdminController extends BaseController {
         } else if ("/manage-communities".equals(pathInfo)) {
             request.setAttribute("allCommunities", new CommunityDAO().getAllCommunitiesForAdmin(200, 0));
         } else if ("/manage-users".equals(pathInfo)) {
-            request.setAttribute("allUsers", new UserDAO().getAllUsers(200, 0));
+            loadUserManagementData(request);
         } else if ("/manage-moderators".equals(pathInfo)) {
             loadModeratorAdminData(request);
         } else if ("/reports".equals(pathInfo)) {
@@ -63,6 +64,11 @@ public class AdminController extends BaseController {
 
         if ("/reports".equals(pathInfo)) {
             handleReportDecision(request, response);
+            return;
+        }
+
+        if ("/manage-users".equals(pathInfo)) {
+            handleUserManagement(request, response);
             return;
         }
 
@@ -95,6 +101,24 @@ public class AdminController extends BaseController {
         request.setAttribute("communities", new CommunityDAO().getAllCommunities(200, 0));
         request.setAttribute("allUsers", new UserDAO().getAllUsers(200, 0));
         request.setAttribute("moderatorAssignments", new CommunityModeratorDAO().getAllModerators());
+    }
+
+    private void loadUserManagementData(HttpServletRequest request) {
+        UserDAO userDAO = new UserDAO();
+        request.setAttribute("allUsers", userDAO.getAllUsers(200, 0));
+
+        Integer editUserId = parseInteger(request.getParameter("editUserId"));
+        if (editUserId == null) {
+            return;
+        }
+
+        User editUser = userDAO.getUserById(editUserId.intValue());
+        if (editUser == null) {
+            request.setAttribute("userError", "That user could not be found.");
+            return;
+        }
+
+        request.setAttribute("editUser", editUser);
     }
 
     private void handleCreateCommunity(HttpServletRequest request, HttpServletResponse response)
@@ -280,6 +304,152 @@ public class AdminController extends BaseController {
         userDAO.updateRole(targetUser.getUserId(), "moderator");
         request.getSession().setAttribute("flashSuccess", "Moderator assigned successfully.");
         redirect(request, response, "/admin/manage-moderators");
+    }
+
+    private void handleUserManagement(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        User admin = getCurrentUser(request.getSession(false));
+        if (admin == null) {
+            redirect(request, response, "/login");
+            return;
+        }
+
+        UserDAO userDAO = new UserDAO();
+        Integer userId = parseInteger(request.getParameter("userId"));
+        String action = trim(request.getParameter("action"));
+
+        request.setAttribute("pageTitle", "Manage Users");
+        request.setAttribute("allUsers", userDAO.getAllUsers(200, 0));
+
+        if (userId == null || action == null) {
+            request.setAttribute("userError", "Choose a user action to continue.");
+            forward(request, response, "/views/admin/manage-users.jsp");
+            return;
+        }
+
+        User targetUser = userDAO.getUserById(userId.intValue());
+        if (targetUser == null) {
+            request.setAttribute("userError", "That user could not be found.");
+            forward(request, response, "/views/admin/manage-users.jsp");
+            return;
+        }
+        request.setAttribute("editUser", targetUser);
+
+        if (targetUser.getUserId() == admin.getUserId() && ("ban".equals(action) || "activate".equals(action))) {
+            request.setAttribute("userError", "You cannot change your own account access from this screen.");
+            forward(request, response, "/views/admin/manage-users.jsp");
+            return;
+        }
+
+        if ("ban".equals(action)) {
+            userDAO.setGlobalBan(targetUser.getUserId(), true);
+            request.getSession().setAttribute("flashSuccess", "User banned and marked inactive.");
+            redirect(request, response, "/admin/manage-users");
+            return;
+        }
+
+        if ("activate".equals(action)) {
+            userDAO.setGlobalBan(targetUser.getUserId(), false);
+            request.getSession().setAttribute("flashSuccess", "User activated again.");
+            redirect(request, response, "/admin/manage-users");
+            return;
+        }
+
+        if (!"save".equals(action)) {
+            request.setAttribute("userError", "Unsupported user action.");
+            forward(request, response, "/views/admin/manage-users.jsp");
+            return;
+        }
+
+        String username = trim(request.getParameter("username"));
+        String displayName = trim(request.getParameter("displayName"));
+        String email = trim(request.getParameter("email"));
+        String phoneNumber = trim(request.getParameter("phoneNumber"));
+        String role = trim(request.getParameter("role"));
+        Integer penaltyPoints = parseInteger(request.getParameter("penaltyPoints"));
+        boolean active = "active".equals(trim(request.getParameter("accountStatus")));
+        boolean globallyBanned = "true".equals(trim(request.getParameter("globallyBanned")));
+
+        if (targetUser.getUserId() == admin.getUserId()) {
+            role = "admin";
+            active = true;
+            globallyBanned = false;
+        }
+
+        if (!ValidationUtil.isValidUsername(username)) {
+            request.setAttribute("userError", "Username must be 3 to 30 characters and can only use letters, numbers, and underscores.");
+            forward(request, response, "/views/admin/manage-users.jsp");
+            return;
+        }
+
+        if (isBlank(displayName) || displayName.length() > 100) {
+            request.setAttribute("userError", "Display name is required and must be under 100 characters.");
+            forward(request, response, "/views/admin/manage-users.jsp");
+            return;
+        }
+
+        if (!ValidationUtil.isValidEmail(email)) {
+            request.setAttribute("userError", "Enter a valid email address.");
+            forward(request, response, "/views/admin/manage-users.jsp");
+            return;
+        }
+
+        if (!ValidationUtil.isValidPhoneNumber(phoneNumber)) {
+            request.setAttribute("userError", "Enter a valid phone number.");
+            forward(request, response, "/views/admin/manage-users.jsp");
+            return;
+        }
+
+        if (!"member".equals(role) && !"moderator".equals(role) && !"admin".equals(role)) {
+            request.setAttribute("userError", "Choose a valid role.");
+            forward(request, response, "/views/admin/manage-users.jsp");
+            return;
+        }
+
+        User usernameOwner = userDAO.getUserByUsername(username);
+        if (usernameOwner != null && usernameOwner.getUserId() != targetUser.getUserId()) {
+            request.setAttribute("userError", "That username is already used by another account.");
+            forward(request, response, "/views/admin/manage-users.jsp");
+            return;
+        }
+
+        User emailOwner = userDAO.getUserByEmail(email);
+        if (emailOwner != null && emailOwner.getUserId() != targetUser.getUserId()) {
+            request.setAttribute("userError", "That email address is already used by another account.");
+            forward(request, response, "/views/admin/manage-users.jsp");
+            return;
+        }
+
+        User phoneOwner = userDAO.getUserByPhoneNumber(phoneNumber);
+        if (phoneOwner != null && phoneOwner.getUserId() != targetUser.getUserId()) {
+            request.setAttribute("userError", "That phone number is already used by another account.");
+            forward(request, response, "/views/admin/manage-users.jsp");
+            return;
+        }
+
+        int safePenaltyPoints = penaltyPoints != null ? Math.max(0, penaltyPoints.intValue()) : 0;
+        if (globallyBanned) {
+            active = false;
+        }
+
+        userDAO.updateAdminUser(
+            targetUser.getUserId(),
+            username,
+            displayName,
+            email,
+            phoneNumber,
+            role,
+            safePenaltyPoints,
+            active,
+            globallyBanned
+        );
+
+        if (targetUser.getUserId() == admin.getUserId()) {
+            request.getSession().setAttribute("currentUser", userDAO.getUserById(admin.getUserId()));
+        }
+
+        request.getSession().setAttribute("flashSuccess", "User updated.");
+        redirect(request, response, "/admin/manage-users");
     }
 
     private String resolveView(String pathInfo) {

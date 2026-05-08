@@ -28,11 +28,13 @@ import util.UploadPathUtil;
 
 @MultipartConfig(
     fileSizeThreshold = 1048576,
-    maxFileSize = 5242880,
-    maxRequestSize = 7340032
+    maxFileSize = 52428800,
+    maxRequestSize = 57671680
 )
 @WebServlet("/member/*")
 public class MemberController extends BaseController {
+
+    private static final long MAX_POST_IMAGE_SIZE = 5L * 1024L * 1024L;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -50,6 +52,10 @@ public class MemberController extends BaseController {
             loadCommunityData(request);
         } else if ("/create-post".equals(pathInfo)) {
             loadCreatePostData(request);
+        } else if ("/edit-post".equals(pathInfo)) {
+            if (!loadEditPostData(request, response)) {
+                return;
+            }
         } else if ("/profile".equals(pathInfo)) {
             loadDashboardData(request);
         }
@@ -68,9 +74,23 @@ public class MemberController extends BaseController {
                 handleCreatePost(request, response);
             } catch (IllegalStateException exception) {
                 request.setAttribute("pageTitle", "Create Post");
-                request.setAttribute("postError", "The image is too large. Upload one image up to 5 MB.");
+                request.setAttribute("postError", "Keep the file below 5 MB.");
                 loadCreatePostData(request);
                 forward(request, response, "/views/member/create-post.jsp");
+            }
+            return;
+        }
+
+        if ("/edit-post".equals(pathInfo)) {
+            try {
+                handleEditPost(request, response);
+            } catch (IllegalStateException exception) {
+                request.setAttribute("pageTitle", "Edit Post");
+                request.setAttribute("postError", "Keep the file below 5 MB.");
+                if (!loadEditPostData(request, response)) {
+                    return;
+                }
+                forward(request, response, "/views/member/edit-post.jsp");
             }
             return;
         }
@@ -162,6 +182,34 @@ public class MemberController extends BaseController {
         request.setAttribute("availableCommunities", new CommunityDAO().getAllCommunities(100, 0));
     }
 
+    private boolean loadEditPostData(HttpServletRequest request, HttpServletResponse response)
+        throws IOException {
+        User user = getCurrentUser(request.getSession(false));
+        if (user == null) {
+            redirect(request, response, "/login");
+            return false;
+        }
+
+        Integer postId = parseInteger(request.getParameter("id"));
+        if (postId == null) {
+            postId = parseInteger(request.getParameter("postId"));
+        }
+        if (postId == null) {
+            redirect(request, response, "/member/my-posts");
+            return false;
+        }
+
+        Post post = new PostDAO().getPostForAuthor(postId.intValue(), user.getUserId());
+        if (post == null) {
+            request.getSession().setAttribute("flashSuccess", "That post could not be edited.");
+            redirect(request, response, "/member/my-posts");
+            return false;
+        }
+
+        request.setAttribute("editPost", post);
+        return true;
+    }
+
     private void handleCreatePost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         User user = getCurrentUser(request.getSession(false));
@@ -193,6 +241,12 @@ public class MemberController extends BaseController {
                 "postError",
                 "Choose a community, add a clear title, and include either post text or an image."
             );
+            forward(request, response, "/views/member/create-post.jsp");
+            return;
+        }
+
+        if (hasImageUpload && imagePart.getSize() > MAX_POST_IMAGE_SIZE) {
+            request.setAttribute("postError", "Keep the file below 5 MB.");
             forward(request, response, "/views/member/create-post.jsp");
             return;
         }
@@ -239,6 +293,89 @@ public class MemberController extends BaseController {
             "draft".equals(status)
                 ? "Post saved as a draft."
                 : "Post submitted for moderator review."
+        );
+        redirect(request, response, "/member/my-posts");
+    }
+
+    private void handleEditPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        User user = getCurrentUser(request.getSession(false));
+        if (user == null) {
+            redirect(request, response, "/login");
+            return;
+        }
+
+        Integer postId = parseInteger(request.getParameter("postId"));
+        PostDAO postDAO = new PostDAO();
+        Post existingPost = postId != null
+            ? postDAO.getPostForAuthor(postId.intValue(), user.getUserId())
+            : null;
+
+        if (existingPost == null) {
+            request.getSession().setAttribute("flashSuccess", "That post could not be edited.");
+            redirect(request, response, "/member/my-posts");
+            return;
+        }
+
+        String title = trim(request.getParameter("title"));
+        String postType = trim(request.getParameter("postType"));
+        String content = trim(request.getParameter("content"));
+        String imageAltText = trim(request.getParameter("imageAltText"));
+        String submissionAction = trim(request.getParameter("submissionAction"));
+        boolean removeImage = "on".equals(request.getParameter("removeImage"));
+        Part imagePart = request.getPart("postImage");
+        boolean hasImageUpload = imagePart != null && imagePart.getSize() > 0;
+        boolean keepsExistingImage = existingPost.hasImage() && !removeImage;
+
+        request.setAttribute("pageTitle", "Edit Post");
+        request.setAttribute("editPost", existingPost);
+        request.setAttribute("submittedTitle", title);
+        request.setAttribute("submittedPostType", postType);
+        request.setAttribute("submittedContent", content);
+        request.setAttribute("submittedImageAltText", imageAltText);
+
+        if (isBlank(title) || title.length() < 5 || (isBlank(content) && !hasImageUpload && !keepsExistingImage)) {
+            request.setAttribute(
+                "postError",
+                "Add a clear title and include either post text or an image."
+            );
+            forward(request, response, "/views/member/edit-post.jsp");
+            return;
+        }
+
+        if (hasImageUpload && imagePart.getSize() > MAX_POST_IMAGE_SIZE) {
+            request.setAttribute("postError", "Keep the file below 5 MB.");
+            forward(request, response, "/views/member/edit-post.jsp");
+            return;
+        }
+
+        String imageUrl = removeImage ? null : existingPost.getImageUrl();
+        if (hasImageUpload) {
+            try {
+                imageUrl = savePostImage(request);
+            } catch (IllegalArgumentException exception) {
+                request.setAttribute("postError", exception.getMessage());
+                forward(request, response, "/views/member/edit-post.jsp");
+                return;
+            }
+        }
+
+        Post updatedPost = new Post();
+        updatedPost.setPostId(existingPost.getPostId());
+        updatedPost.setAuthorId(user.getUserId());
+        updatedPost.setTitle(title);
+        updatedPost.setContent(content != null ? content : "");
+        updatedPost.setPostType(resolvePostType(postType, imageUrl));
+        updatedPost.setImageUrl(imageUrl);
+        updatedPost.setImageAltText(imageUrl != null ? (!isBlank(imageAltText) ? imageAltText : title) : null);
+        updatedPost.setStatus("save-draft".equals(submissionAction) ? "draft" : "pending");
+
+        postDAO.updatePost(updatedPost);
+        request.getSession().setAttribute(
+            "flashSuccess",
+            "draft".equals(updatedPost.getStatus())
+                ? "Post changes saved as a draft."
+                : "Post updated and sent for moderator review."
         );
         redirect(request, response, "/member/my-posts");
     }
@@ -470,6 +607,10 @@ public class MemberController extends BaseController {
         Part imagePart = request.getPart("postImage");
         if (imagePart == null || imagePart.getSize() == 0) {
             return null;
+        }
+
+        if (imagePart.getSize() > MAX_POST_IMAGE_SIZE) {
+            throw new IllegalArgumentException("Keep the file below 5 MB.");
         }
 
         String extension = resolveImageExtension(imagePart.getContentType());

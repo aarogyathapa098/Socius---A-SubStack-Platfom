@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -177,18 +179,113 @@ public class UserDAO {
     }
 
     public void incrementFailedAttempts(int userId) {
+        String sql = "UPDATE users SET failed_attempts = failed_attempts + 1 WHERE user_id = ?";
+
+        try (
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setInt(1, userId);
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new RuntimeException("Failed to update failed login attempts.", exception);
+        }
     }
 
     public void resetFailedAttempts(int userId) {
+        String sql = "UPDATE users SET failed_attempts = 0, locked_until = NULL WHERE user_id = ?";
+
+        try (
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setInt(1, userId);
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new RuntimeException("Failed to reset failed login attempts.", exception);
+        }
     }
 
     public void lockAccount(int userId) {
+        String sql = "UPDATE users SET failed_attempts = 5, locked_until = ? WHERE user_id = ?";
+
+        try (
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now().plusMinutes(1)));
+            statement.setInt(2, userId);
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new RuntimeException("Failed to lock account.", exception);
+        }
     }
 
     public void updatePenaltyPoints(int userId, int penaltyPoints) {
+        String sql = "UPDATE users SET penalty_points = ? WHERE user_id = ?";
+
+        try (
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setInt(1, penaltyPoints);
+            statement.setInt(2, userId);
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new RuntimeException("Failed to update penalty points.", exception);
+        }
     }
 
     public void setGlobalBan(int userId, boolean banned) {
+        String sql =
+            "UPDATE users SET is_globally_banned = ?, is_active = ?, failed_attempts = 0, locked_until = NULL "
+                + "WHERE user_id = ?";
+
+        try (
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setBoolean(1, banned);
+            statement.setBoolean(2, !banned);
+            statement.setInt(3, userId);
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new RuntimeException("Failed to update global ban state.", exception);
+        }
+    }
+
+    public void updateAdminUser(
+        int userId,
+        String username,
+        String displayName,
+        String email,
+        String phoneNumber,
+        String role,
+        int penaltyPoints,
+        boolean active,
+        boolean globallyBanned
+    ) {
+        String sql =
+            "UPDATE users SET username = ?, display_name = ?, email = ?, phone_number = ?, role = ?, "
+                + "penalty_points = ?, is_active = ?, is_globally_banned = ? WHERE user_id = ?";
+
+        try (
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setString(1, username);
+            statement.setString(2, displayName);
+            statement.setString(3, email);
+            statement.setString(4, phoneNumber);
+            statement.setString(5, role);
+            statement.setInt(6, penaltyPoints);
+            statement.setBoolean(7, active);
+            statement.setBoolean(8, globallyBanned);
+            statement.setInt(9, userId);
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new RuntimeException("Failed to update user from admin panel.", exception);
+        }
     }
 
     public List<User> getAllUsers(int limit, int offset) {

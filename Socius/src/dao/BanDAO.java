@@ -39,6 +39,40 @@ public class BanDAO {
     }
 
     public void globalBanUser(int userId, int bannedBy, String reason) {
+        String sql =
+            "INSERT INTO bans (user_id, community_id, banned_by, reason, is_global, expires_at) "
+                + "SELECT ?, NULL, ?, ?, 1, NULL "
+                + "WHERE NOT EXISTS ("
+                + "SELECT 1 FROM bans WHERE user_id = ? AND is_global = 1 "
+                + "AND (expires_at IS NULL OR expires_at > CURRENT_TIMESTAMP)"
+                + ")";
+
+        try (
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setInt(1, userId);
+            statement.setInt(2, bannedBy);
+            statement.setString(3, reason);
+            statement.setInt(4, userId);
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new RuntimeException("Failed to globally ban user.", exception);
+        }
+    }
+
+    public void removeGlobalBansForUser(int userId) {
+        String sql = "DELETE FROM bans WHERE user_id = ? AND is_global = 1";
+
+        try (
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setInt(1, userId);
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new RuntimeException("Failed to remove global bans.", exception);
+        }
     }
 
     public void unbanUser(int banId) {
@@ -75,7 +109,22 @@ public class BanDAO {
     }
 
     public boolean isGloballyBanned(int userId) {
-        return false;
+        String sql =
+            "SELECT 1 FROM bans WHERE user_id = ? AND is_global = 1 "
+                + "AND (expires_at IS NULL OR expires_at > CURRENT_TIMESTAMP)";
+
+        try (
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setInt(1, userId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                return resultSet.next();
+            }
+        } catch (SQLException exception) {
+            throw new RuntimeException("Failed to check global ban.", exception);
+        }
     }
 
     public List<Ban> getBansByCommunity(int communityId) {

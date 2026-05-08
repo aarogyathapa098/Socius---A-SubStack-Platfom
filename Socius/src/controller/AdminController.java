@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.util.List;
 
+import dao.BanDAO;
 import dao.CommunityDAO;
 import dao.CommunityModeratorDAO;
 import dao.CommentDAO;
@@ -344,6 +345,7 @@ public class AdminController extends BaseController {
 
         if ("ban".equals(action)) {
             userDAO.setGlobalBan(targetUser.getUserId(), true);
+            new BanDAO().globalBanUser(targetUser.getUserId(), admin.getUserId(), "Global ban applied by admin.");
             request.getSession().setAttribute("flashSuccess", "User banned and marked inactive.");
             redirect(request, response, "/admin/manage-users");
             return;
@@ -351,6 +353,7 @@ public class AdminController extends BaseController {
 
         if ("activate".equals(action)) {
             userDAO.setGlobalBan(targetUser.getUserId(), false);
+            new BanDAO().removeGlobalBansForUser(targetUser.getUserId());
             request.getSession().setAttribute("flashSuccess", "User activated again.");
             redirect(request, response, "/admin/manage-users");
             return;
@@ -444,6 +447,13 @@ public class AdminController extends BaseController {
             active,
             globallyBanned
         );
+
+        BanDAO banDAO = new BanDAO();
+        if (globallyBanned && !banDAO.isGloballyBanned(targetUser.getUserId())) {
+            banDAO.globalBanUser(targetUser.getUserId(), admin.getUserId(), "Global ban applied by admin.");
+        } else if (!globallyBanned && targetUser.isGloballyBanned()) {
+            banDAO.removeGlobalBansForUser(targetUser.getUserId());
+        }
 
         if (targetUser.getUserId() == admin.getUserId()) {
             request.getSession().setAttribute("currentUser", userDAO.getUserById(admin.getUserId()));

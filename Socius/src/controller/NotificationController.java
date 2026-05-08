@@ -44,6 +44,7 @@ public class NotificationController extends BaseController {
         setWorkItemCounts(request, user);
         notificationDAO.markAllRead(user.getUserId());
         request.setAttribute("pageTitle", "Notifications");
+        request.setAttribute("sidebarPortal", resolveNotificationPortal(user));
         request.setAttribute("notifications", notifications);
         forward(request, response, "/views/member/notifications.jsp");
     }
@@ -75,6 +76,16 @@ public class NotificationController extends BaseController {
         if ("admin".equals(role)) {
             request.setAttribute("pendingCommunityWorkCount", Integer.valueOf(new CommunityDAO().getPendingCommunityCount()));
         }
+    }
+
+    private String resolveNotificationPortal(User user) {
+        if ("admin".equals(user.getRole())) {
+            return "admin";
+        }
+        if ("moderator".equals(user.getRole())) {
+            return "moderator";
+        }
+        return "member";
     }
 
     private User getCurrentUser(HttpSession session) {

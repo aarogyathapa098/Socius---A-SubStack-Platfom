@@ -13,8 +13,9 @@ Object forwardedServletPathAttr = request.getAttribute("jakarta.servlet.forward.
 String forwardedUri = forwardedUriAttr != null ? String.valueOf(forwardedUriAttr) : "";
 String forwardedServletPath = forwardedServletPathAttr != null ? String.valueOf(forwardedServletPathAttr) : "";
 String routePath = currentPath + " " + servletPath + " " + forwardedUri + " " + forwardedServletPath;
-boolean adminPortal = routePath.contains("/admin/") || routePath.contains("/views/admin/");
-boolean moderatorPortal = routePath.contains("/moderator/") || routePath.contains("/views/mod/");
+String sidebarPortalOverride = request.getAttribute("sidebarPortal") != null ? String.valueOf(request.getAttribute("sidebarPortal")) : "";
+boolean adminPortal = "admin".equals(sidebarPortalOverride) || routePath.contains("/admin/") || routePath.contains("/views/admin/");
+boolean moderatorPortal = "moderator".equals(sidebarPortalOverride) || routePath.contains("/moderator/") || routePath.contains("/views/mod/");
 boolean canModerate = "moderator".equals(sidebarRole) || "admin".equals(sidebarRole);
 boolean canAdmin = "admin".equals(sidebarRole);
 
@@ -73,6 +74,10 @@ if (!adminPortal && !moderatorPortal && sidebarUser != null) {
                 <span class="material-symbols-outlined">report</span>
                 <span>Reports</span>
             </a>
+            <a class="side-rail__link <%= currentPath.contains("/notifications") ? "is-active" : "" %>" href="${pageContext.request.contextPath}/notifications">
+                <span class="material-symbols-outlined">notifications</span>
+                <span>Notifications</span>
+            </a>
         <% } else if (moderatorPortal) { %>
             <a class="side-rail__link <%= currentPath.contains("/moderator/dashboard") ? "is-active" : "" %>" href="${pageContext.request.contextPath}/moderator/dashboard">
                 <span class="material-symbols-outlined">dashboard</span>
@@ -99,6 +104,10 @@ if (!adminPortal && !moderatorPortal && sidebarUser != null) {
             <a class="side-rail__link <%= currentPath.contains("/moderator/send-bulletin") ? "is-active" : "" %>" href="${pageContext.request.contextPath}/moderator/send-bulletin">
                 <span class="material-symbols-outlined">campaign</span>
                 <span>Send bulletin</span>
+            </a>
+            <a class="side-rail__link <%= currentPath.contains("/notifications") ? "is-active" : "" %>" href="${pageContext.request.contextPath}/notifications">
+                <span class="material-symbols-outlined">notifications</span>
+                <span>Notifications</span>
             </a>
         <% } else { %>
             <a class="side-rail__link <%= currentPath.contains("/member/home") ? "is-active" : "" %>" href="${pageContext.request.contextPath}/member/home">

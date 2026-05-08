@@ -11,6 +11,7 @@ int pendingPostWork = pendingPostWorkCount != null ? pendingPostWorkCount.intVal
 int openReportWork = openReportWorkCount != null ? openReportWorkCount.intValue() : 0;
 int pendingCommunityWork = pendingCommunityWorkCount != null ? pendingCommunityWorkCount.intValue() : 0;
 boolean hasWorkItems = pendingPostWork > 0 || openReportWork > 0 || pendingCommunityWork > 0;
+boolean notificationAdminView = currentUser != null && "admin".equals(currentUser.getRole());
 %>
 <main class="content-shell">
     <section class="section-card section-card--hero-copy">
@@ -40,10 +41,10 @@ boolean hasWorkItems = pendingPostWork > 0 || openReportWork > 0 || pendingCommu
                 </a>
             <% } %>
             <% if (openReportWork > 0) { %>
-                <a class="list-row notification-row notification-row--unread" href="${pageContext.request.contextPath}/moderator/reported-posts">
+                <a class="list-row notification-row notification-row--unread" href="${pageContext.request.contextPath}<%= notificationAdminView ? "/admin/reports" : "/moderator/reported-posts" %>">
                     <div>
                         <strong><%= openReportWork %> open report<%= openReportWork == 1 ? "" : "s" %> need review</strong>
-                        <p class="muted">Review reported posts from Moderator.</p>
+                        <p class="muted">Review reported posts from <%= notificationAdminView ? "Admin" : "Moderator" %>.</p>
                     </div>
                     <span class="material-symbols-outlined">arrow_forward</span>
                 </a>

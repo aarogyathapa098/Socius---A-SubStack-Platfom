@@ -19,6 +19,9 @@ String forwardedHeaderServletPath = forwardedHeaderServletPathAttr != null ? Str
 String headerRoutePath = currentHeaderPath + " " + headerServletPath + " " + forwardedHeaderUri + " " + forwardedHeaderServletPath;
 boolean adminPortalHeader = headerRoutePath.contains("/admin/") || headerRoutePath.contains("/views/admin/");
 boolean moderatorPortalHeader = headerRoutePath.contains("/moderator/") || headerRoutePath.contains("/views/mod/");
+String currentUserRole = currentUser != null ? currentUser.getRole() : "";
+boolean adminUserHeader = "admin".equals(currentUserRole);
+boolean moderatorUserHeader = "moderator".equals(currentUserRole) || adminUserHeader;
 boolean authPageHeader = currentHeaderPath.contains("/login")
     || currentHeaderPath.contains("/register")
     || currentHeaderPath.contains("/forgot-password")
@@ -26,17 +29,22 @@ boolean authPageHeader = currentHeaderPath.contains("/login")
 String brandPath = currentUser != null ? "/member/home" : (authPageHeader ? "/login" : "/discover");
 String accountPath = "/member/profile";
 String createCommunityPath = "/member/create-community";
-String primaryActionLabel = "Add community";
-String primaryActionIcon = "add";
+String primaryActionLabel = "+ Create";
+String profileMenuLabel = "Profile";
+boolean showPrimaryAction = true;
 if (adminPortalHeader) {
     accountPath = "/admin/dashboard";
     createCommunityPath = "/admin/manage-communities";
-    primaryActionLabel = "New community";
+    profileMenuLabel = "Admin";
 } else if (moderatorPortalHeader) {
     accountPath = "/moderator/dashboard";
     createCommunityPath = "/moderator/approval-queue";
-    primaryActionLabel = "Review queue";
-    primaryActionIcon = "rule";
+    profileMenuLabel = "Moderator";
+    showPrimaryAction = false;
+} else if (adminUserHeader) {
+    profileMenuLabel = "Admin";
+} else if (moderatorUserHeader) {
+    profileMenuLabel = "Moderator";
 }
 String flashSuccess = null;
 if (session != null && session.getAttribute("flashSuccess") != null) {
@@ -53,7 +61,7 @@ if (session != null && session.getAttribute("flashSuccess") != null) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css?v=navbar-clean-2">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/discover.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/community.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/post.css">
@@ -64,47 +72,77 @@ if (session != null && session.getAttribute("flashSuccess") != null) {
 <body class="socius-body <%= showSidebar ? "socius-body--with-sidebar" : "socius-body--public" %>">
     <header class="topbar glass-surface">
         <div class="topbar__inner">
-            <a class="brand" href="${pageContext.request.contextPath}<%= brandPath %>">Socius</a>
+            <div class="topbar__left">
+                <a class="brand" href="${pageContext.request.contextPath}<%= brandPath %>">Socius</a>
+                <% if (!authPageHeader) { %>
+                    <nav class="topnav" aria-label="Primary navigation">
+                        <% if (currentUser != null) { %>
+                            <a href="${pageContext.request.contextPath}/member/home">Home</a>
+                        <% } %>
+                        <a href="${pageContext.request.contextPath}/discover">Discover</a>
+                        <a href="${pageContext.request.contextPath}/community">Communities</a>
+                        <a href="${pageContext.request.contextPath}/about">Purpose</a>
+                    </nav>
+                <% } %>
+            </div>
             <% if (!authPageHeader) { %>
-                <nav class="topnav">
-                    <% if (currentUser != null) { %>
-                        <a href="${pageContext.request.contextPath}/member/home">Home Feed</a>
-                    <% } %>
-                    <a href="${pageContext.request.contextPath}/discover">Discover</a>
-                    <a href="${pageContext.request.contextPath}/community">Communities</a>
-                    <a href="${pageContext.request.contextPath}/about">Purpose</a>
-                </nav>
-            <% } %>
-            <div class="topbar__actions">
                 <form class="topbar__search" action="${pageContext.request.contextPath}/search" method="get" autocomplete="off">
                     <span class="material-symbols-outlined">search</span>
                     <input id="globalSearchInput" type="search" name="q" placeholder="Search posts and communities" aria-label="Search posts and communities" aria-expanded="false" aria-controls="globalSearchSuggestions">
                     <div id="globalSearchSuggestions" class="search-suggestions" role="listbox" aria-label="Search suggestions"></div>
                 </form>
-                <a class="topbar__chip" href="${pageContext.request.contextPath}/contact">
-                    <span class="material-symbols-outlined">help</span>
-                    <span>Support</span>
-                </a>
+            <% } %>
+            <div class="topbar__actions">
                 <% if (currentUser != null) { %>
-                    <a class="topbar__chip topbar__chip--primary" href="${pageContext.request.contextPath}<%= createCommunityPath %>">
-                        <span class="material-symbols-outlined"><%= primaryActionIcon %></span>
-                        <span><%= primaryActionLabel %></span>
-                    </a>
+                    <% if (showPrimaryAction) { %>
+                        <a class="topbar__chip topbar__chip--primary" href="${pageContext.request.contextPath}<%= createCommunityPath %>">
+                            <span><%= primaryActionLabel %></span>
+                        </a>
+                    <% } %>
                     <a class="topbar__icon-link" href="${pageContext.request.contextPath}/notifications" aria-label="Notifications">
                         <span class="material-symbols-outlined">notifications</span>
                         <span id="notificationCount" class="notification-count" hidden>0</span>
                     </a>
-                    <a class="topbar__account" href="${pageContext.request.contextPath}<%= accountPath %>">
-                        <span class="material-symbols-outlined">account_circle</span>
-                        <span><%= currentUser.getDisplayName() != null ? currentUser.getDisplayName() : currentUser.getUsername() %></span>
-                    </a>
-                    <a class="topbar__chip topbar__chip--persistent" href="${pageContext.request.contextPath}/logout">Logout</a>
+                    <details class="profile-menu">
+                        <summary class="topbar__account">
+                            <span class="material-symbols-outlined">account_circle</span>
+                            <span><%= profileMenuLabel %></span>
+                            <span class="material-symbols-outlined">expand_more</span>
+                        </summary>
+                        <div class="profile-menu__panel">
+                            <% if (adminUserHeader) { %>
+                                <a href="${pageContext.request.contextPath}/admin/dashboard">Admin Dashboard</a>
+                            <% } %>
+                            <% if (moderatorUserHeader) { %>
+                                <a href="${pageContext.request.contextPath}/moderator/dashboard">Moderator Dashboard</a>
+                            <% } %>
+                            <a href="${pageContext.request.contextPath}/member/profile">Profile</a>
+                            <a href="${pageContext.request.contextPath}/contact">Support</a>
+                            <a href="${pageContext.request.contextPath}/logout">Logout</a>
+                        </div>
+                    </details>
                 <% } else { %>
                     <a class="topbar__chip" href="${pageContext.request.contextPath}/register">Join</a>
                     <a class="topbar__account" href="${pageContext.request.contextPath}/login">
                         <span class="material-symbols-outlined">account_circle</span>
                         <span>Sign in</span>
                     </a>
+                <% } %>
+                <% if (!authPageHeader) { %>
+                    <details class="topbar__mobile-menu">
+                        <summary aria-label="Open navigation menu">
+                            <span class="material-symbols-outlined">menu</span>
+                        </summary>
+                        <div class="topbar__mobile-panel">
+                            <% if (currentUser != null) { %>
+                                <a href="${pageContext.request.contextPath}/member/home">Home</a>
+                            <% } %>
+                            <a href="${pageContext.request.contextPath}/discover">Discover</a>
+                            <a href="${pageContext.request.contextPath}/community">Communities</a>
+                            <a href="${pageContext.request.contextPath}/about">Purpose</a>
+                            <a href="${pageContext.request.contextPath}/contact">Support</a>
+                        </div>
+                    </details>
                 <% } %>
             </div>
         </div>

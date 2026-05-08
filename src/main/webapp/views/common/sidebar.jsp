@@ -19,6 +19,22 @@ boolean canModerate = "moderator".equals(sidebarRole) || "admin".equals(sidebarR
 boolean canAdmin = "admin".equals(sidebarRole);
 
 String sidebarHeading = adminPortal ? "Admin Hub" : (moderatorPortal ? "Moderator Hub" : "Member Hub");
+String sidebarSubtitle = "guest".equals(sidebarRole) ? "Civic community" : sidebarRole + " workspace";
+if (adminPortal) {
+    sidebarSubtitle = "Admin workspace";
+} else if (moderatorPortal) {
+    sidebarSubtitle = "Moderator workspace";
+}
+if (!adminPortal && !moderatorPortal && sidebarUser != null) {
+    String memberName = sidebarUser.getDisplayName();
+    if (memberName == null || memberName.trim().isEmpty()) {
+        memberName = sidebarUser.getUsername();
+    }
+    if (memberName != null && !memberName.trim().isEmpty()) {
+        String firstName = memberName.trim().split("\\s+")[0];
+        sidebarSubtitle = firstName + "'s workspace";
+    }
+}
 %>
 <aside class="side-rail" aria-label="<%= sidebarHeading %> navigation">
     <div class="side-rail__header">
@@ -27,7 +43,7 @@ String sidebarHeading = adminPortal ? "Admin Hub" : (moderatorPortal ? "Moderato
         </a>
         <div>
             <h2><%= sidebarHeading %></h2>
-            <p><%= "guest".equals(sidebarRole) ? "Civic community" : sidebarRole + " workspace" %></p>
+            <p><%= sidebarSubtitle %></p>
         </div>
     </div>
 

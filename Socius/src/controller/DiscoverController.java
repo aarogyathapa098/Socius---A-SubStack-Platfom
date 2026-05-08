@@ -48,7 +48,7 @@ public class DiscoverController extends BaseController {
         PostDAO postDAO = new PostDAO();
         ReportDAO reportDAO = new ReportDAO();
 
-        int communityCount = communityDAO.getTotalCommunityCount();
+        int communityCount = communityDAO.getApprovedCommunityCount();
         int approvedPostCount = postDAO.getApprovedPostCount();
         int pendingPostCount = postDAO.getPendingPostCount();
         int openReportCount = reportDAO.getOpenReportCount();

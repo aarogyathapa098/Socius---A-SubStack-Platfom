@@ -91,6 +91,7 @@ public class AdminController extends BaseController {
 
         request.setAttribute("adminUserCount", Integer.valueOf(userDAO.getTotalUserCount()));
         request.setAttribute("adminCommunityCount", Integer.valueOf(communityDAO.getTotalCommunityCount()));
+        request.setAttribute("adminPendingCommunityCount", Integer.valueOf(communityDAO.getPendingCommunityCount()));
         request.setAttribute("adminPendingCount", Integer.valueOf(postDAO.getPendingPostCount()));
         request.setAttribute("adminReportCount", Integer.valueOf(reportDAO.getOpenReportCount()));
         request.setAttribute("adminRecentUsers", recentUsers);

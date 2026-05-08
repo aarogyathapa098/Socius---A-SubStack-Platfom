@@ -291,6 +291,35 @@ public class CommunityDAO {
         return 0;
     }
 
+    public int getApprovedCommunityCount() {
+        return getCommunityCountByApprovalStatus("approved");
+    }
+
+    public int getPendingCommunityCount() {
+        return getCommunityCountByApprovalStatus("pending");
+    }
+
+    private int getCommunityCountByApprovalStatus(String approvalStatus) {
+        String sql = "SELECT COUNT(*) FROM communities WHERE approval_status = ?";
+
+        try (
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)
+        ) {
+            statement.setString(1, approvalStatus);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1);
+                }
+            }
+        } catch (SQLException exception) {
+            throw new RuntimeException("Failed to count communities by approval status.", exception);
+        }
+
+        return 0;
+    }
+
     private Community mapCommunity(ResultSet resultSet) throws SQLException {
         Community community = new Community();
         community.setCommunityId(resultSet.getInt("community_id"));

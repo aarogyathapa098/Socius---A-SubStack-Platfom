@@ -214,6 +214,13 @@ public class ModeratorController extends BaseController {
         bulletin.setBody(body);
         bulletin.setRecipientCount(community != null ? community.getMemberCount() : 0);
         new BulletinDAO().insertBulletin(bulletin);
+        if (community != null) {
+            new NotificationDAO().createNotification(
+                community.getCreatedBy(),
+                "New bulletin for " + community.getName() + ": " + subject,
+                "/notifications"
+            );
+        }
 
         request.getSession().setAttribute("flashSuccess", "Bulletin sent to the selected community.");
         redirect(request, response, "/moderator/send-bulletin");

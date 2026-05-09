@@ -4,10 +4,6 @@
 <%@ include file="../common/sidebar.jsp" %>
 <%
 List<Post> feedPosts = (List<Post>) request.getAttribute("feedPosts");
-String feedMode = (String) request.getAttribute("feedMode");
-if (feedMode == null) {
-    feedMode = "personalized";
-}
 %>
 <main class="content-shell content-shell--home">
     <section class="feed-shell">
@@ -15,7 +11,7 @@ if (feedMode == null) {
             <div class="feed-heading">
                 <div>
                     <p class="eyebrow">Home</p>
-                    <h1><%= "explore".equals(feedMode) ? "Explore every community." : "Your ranked home feed." %></h1>
+                    <h1>Your ranked home feed.</h1>
                     <p class="lead-sm">Scroll through approved posts ranked by votes, comments, recency, and the communities you joined.</p>
                 </div>
                 <a class="button button--primary" href="${pageContext.request.contextPath}/member/create-post">
@@ -26,8 +22,7 @@ if (feedMode == null) {
 
             <% if (feedPosts != null && !feedPosts.isEmpty()) { %>
                 <div class="feed-tabs" aria-label="Feed filters">
-                    <a class="feed-tab <%= "personalized".equals(feedMode) ? "is-active" : "" %>" href="${pageContext.request.contextPath}/member/home?mode=personalized">Home</a>
-                    <a class="feed-tab <%= "explore".equals(feedMode) ? "is-active" : "" %>" href="${pageContext.request.contextPath}/member/home?mode=explore">Explore</a>
+                    <a class="feed-tab is-active" href="${pageContext.request.contextPath}/member/home">Home</a>
                     <a class="feed-tab" href="${pageContext.request.contextPath}/community">Communities</a>
                     <a class="feed-tab" href="${pageContext.request.contextPath}/member/my-posts">My posts</a>
                 </div>

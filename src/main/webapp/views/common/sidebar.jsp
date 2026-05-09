@@ -152,17 +152,7 @@ if (!adminPortal && !moderatorPortal && sidebarUser != null) {
     </nav>
 
     <div class="side-rail__footer">
-        <% if (adminPortal) { %>
-            <a class="button button--primary" href="${pageContext.request.contextPath}/admin/manage-communities">
-                <span class="material-symbols-outlined">add</span>
-                <span>New community</span>
-            </a>
-        <% } else if (moderatorPortal) { %>
-            <a class="button button--primary" href="${pageContext.request.contextPath}/moderator/approval-queue">
-                <span class="material-symbols-outlined">rule</span>
-                <span>Review queue</span>
-            </a>
-        <% } else { %>
+        <% if (!adminPortal && !moderatorPortal) { %>
             <a class="side-rail__utility" href="${pageContext.request.contextPath}/contact">
                 <span class="material-symbols-outlined">help</span>
                 <span>Help center</span>

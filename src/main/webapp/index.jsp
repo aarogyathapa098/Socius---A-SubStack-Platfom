@@ -1,3 +1,3 @@
 <%
-response.sendRedirect(request.getContextPath() + "/discover");
+response.sendRedirect(request.getContextPath() + "/member/home");
 %>

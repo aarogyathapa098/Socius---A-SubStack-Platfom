@@ -35,6 +35,9 @@ List<Post> pendingPosts = (List<Post>) request.getAttribute("pendingPosts");
                                         class="approval-thumb"
                                         src="${pageContext.request.contextPath}<%= post.getImageUrl() %>"
                                         alt="<%= post.getImageAltText() != null ? post.getImageAltText() : post.getTitle() %>"
+                                        width="150"
+                                        height="92"
+                                        loading="lazy"
                                     >
                                 <% } %>
                             </td>

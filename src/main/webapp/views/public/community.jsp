@@ -83,6 +83,9 @@ int approvedPostCount = approvedPostCountAttr != null ? approvedPostCountAttr.in
                                         <img
                                             src="${pageContext.request.contextPath}<%= post.getImageUrl() %>"
                                             alt="<%= post.getImageAltText() != null ? post.getImageAltText() : post.getTitle() %>"
+                                            width="800"
+                                            height="450"
+                                            loading="lazy"
                                         >
                                     </a>
                                 <% } %>

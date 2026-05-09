@@ -42,6 +42,8 @@ String currentVoteType = currentVote != null ? currentVote.getVoteType() : "";
                     <img
                         src="${pageContext.request.contextPath}<%= post.getImageUrl() %>"
                         alt="<%= post.getImageAltText() != null ? post.getImageAltText() : post.getTitle() %>"
+                        width="1200"
+                        height="675"
                     >
                 </figure>
             <% } %>
@@ -54,11 +56,11 @@ String currentVoteType = currentVote != null ? currentVote.getVoteType() : "";
                 <form class="vote-panel" action="${pageContext.request.contextPath}/post" method="post" aria-label="Vote on this post">
                     <input type="hidden" name="action" value="vote">
                     <input type="hidden" name="postId" value="<%= post.getPostId() %>">
-                    <button class="vote-button <%= "up".equals(currentVoteType) ? "is-active" : "" %>" type="submit" name="voteType" value="up">
+                    <button class="vote-button <%= "up".equals(currentVoteType) ? "is-active" : "" %>" type="submit" name="voteType" value="up" aria-label="Upvote this post">
                         <span class="material-symbols-outlined">thumb_up</span>
                         <span><%= post.getUpvotes() %></span>
                     </button>
-                    <button class="vote-button <%= "down".equals(currentVoteType) ? "is-active" : "" %>" type="submit" name="voteType" value="down">
+                    <button class="vote-button <%= "down".equals(currentVoteType) ? "is-active" : "" %>" type="submit" name="voteType" value="down" aria-label="Downvote this post">
                         <span class="material-symbols-outlined">thumb_down</span>
                         <span><%= post.getDownvotes() %></span>
                     </button>

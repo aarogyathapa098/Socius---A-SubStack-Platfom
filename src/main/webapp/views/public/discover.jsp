@@ -70,6 +70,8 @@ int openReportCount = openReportCountAttr != null ? openReportCountAttr.intValue
                     <img
                         src="${pageContext.request.contextPath}<%= featurePost.getImageUrl() %>"
                         alt="<%= featurePost.getImageAltText() != null ? featurePost.getImageAltText() : featurePost.getTitle() %>"
+                        width="1200"
+                        height="675"
                     >
                 </a>
             <% } %>
@@ -137,6 +139,9 @@ int openReportCount = openReportCountAttr != null ? openReportCountAttr.intValue
                                     <img
                                         src="${pageContext.request.contextPath}<%= post.getImageUrl() %>"
                                         alt="<%= post.getImageAltText() != null ? post.getImageAltText() : post.getTitle() %>"
+                                        width="800"
+                                        height="450"
+                                        loading="lazy"
                                     >
                                 </a>
                             <% } %>

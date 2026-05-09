@@ -1,4 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("[data-toggle-target]").forEach(function (button) {
+        button.addEventListener("click", function () {
+            const panel = document.getElementById(button.dataset.toggleTarget);
+            if (!panel) {
+                return;
+            }
+            panel.hidden = !panel.hidden;
+            panel.classList.toggle("is-open", !panel.hidden);
+        });
+    });
+
     const flash = document.querySelector(".flash:not([hidden]):not([data-persistent='true'])");
     if (flash) {
         setTimeout(function () {

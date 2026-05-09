@@ -81,6 +81,8 @@ String imageAltText = submittedImageAltText != null ? submittedImageAltText : (e
                         <img
                             src="${pageContext.request.contextPath}<%= editPost.getImageUrl() %>"
                             alt="<%= editPost.getImageAltText() != null ? editPost.getImageAltText() : editPost.getTitle() %>"
+                            width="1200"
+                            height="675"
                         >
                     </figure>
                 <% } else { %>

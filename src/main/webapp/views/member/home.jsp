@@ -57,6 +57,9 @@ if (feedMode == null) {
                                     <img
                                         src="${pageContext.request.contextPath}<%= post.getImageUrl() %>"
                                         alt="<%= post.getImageAltText() != null ? post.getImageAltText() : post.getTitle() %>"
+                                        width="1200"
+                                        height="675"
+                                        loading="lazy"
                                     >
                                 </a>
                             <% } %>

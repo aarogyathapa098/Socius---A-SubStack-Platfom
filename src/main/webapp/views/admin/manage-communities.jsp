@@ -100,16 +100,4 @@ String submittedCommunityGuidelines = (String) request.getAttribute("submittedCo
         </div>
     </section>
 </main>
-<script>
-    document.querySelectorAll('[data-toggle-target]').forEach((button) => {
-        button.addEventListener('click', () => {
-            const panel = document.getElementById(button.dataset.toggleTarget);
-            if (!panel) {
-                return;
-            }
-            panel.hidden = !panel.hidden;
-            panel.classList.toggle('is-open', !panel.hidden);
-        });
-    });
-</script>
 <%@ include file="../common/footer.jsp" %>

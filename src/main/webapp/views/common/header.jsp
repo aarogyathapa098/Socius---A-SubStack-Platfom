@@ -4,6 +4,7 @@ String pageTitle = (String) request.getAttribute("pageTitle");
 if (pageTitle == null || pageTitle.trim().isEmpty()) {
     pageTitle = "Socius";
 }
+String pageDescription = (String) request.getAttribute("pageDescription");
 User currentUser = null;
 if (session != null && session.getAttribute("currentUser") instanceof User) {
     currentUser = (User) session.getAttribute("currentUser");
@@ -19,6 +20,15 @@ String forwardedHeaderServletPath = forwardedHeaderServletPathAttr != null ? Str
 String headerRoutePath = currentHeaderPath + " " + headerServletPath + " " + forwardedHeaderUri + " " + forwardedHeaderServletPath;
 boolean adminPortalHeader = headerRoutePath.contains("/admin/") || headerRoutePath.contains("/views/admin/");
 boolean moderatorPortalHeader = headerRoutePath.contains("/moderator/") || headerRoutePath.contains("/views/mod/");
+boolean discoverPageHeader = "/discover".equals(headerServletPath)
+    || "/discover".equals(forwardedHeaderServletPath)
+    || headerRoutePath.contains("/views/public/discover");
+boolean communityPageHeader = "/community".equals(headerServletPath)
+    || "/community".equals(forwardedHeaderServletPath)
+    || headerRoutePath.contains("/views/public/community");
+boolean postPageHeader = "/post".equals(headerServletPath)
+    || "/post".equals(forwardedHeaderServletPath)
+    || headerRoutePath.contains("/views/public/post");
 String currentUserRole = currentUser != null ? currentUser.getRole() : "";
 boolean adminUserHeader = "admin".equals(currentUserRole);
 boolean moderatorUserHeader = "moderator".equals(currentUserRole) || adminUserHeader;
@@ -43,6 +53,23 @@ if (adminPortalHeader) {
 } else if (moderatorUserHeader) {
     profileMenuLabel = "Moderator";
 }
+if (pageDescription == null || pageDescription.trim().isEmpty()) {
+    if (authPageHeader) {
+        pageDescription = "Sign in or create a Socius account to join moderated community discussions.";
+    } else if (adminPortalHeader) {
+        pageDescription = "Manage Socius users, communities, reports, and moderation workflows.";
+    } else if (moderatorPortalHeader) {
+        pageDescription = "Review pending posts, reports, bans, and community updates in Socius.";
+    } else if (discoverPageHeader) {
+        pageDescription = "Discover Socius communities and approved discussions from the live platform.";
+    } else if (communityPageHeader) {
+        pageDescription = "Browse Socius communities and read approved posts from each space.";
+    } else if (postPageHeader) {
+        pageDescription = "Read and participate in an approved Socius community discussion.";
+    } else {
+        pageDescription = "Socius is a moderated community discussion platform for members, moderators, and admins.";
+    }
+}
 String flashSuccess = null;
 if (session != null && session.getAttribute("flashSuccess") != null) {
     flashSuccess = String.valueOf(session.getAttribute("flashSuccess"));
@@ -54,14 +81,21 @@ if (session != null && session.getAttribute("flashSuccess") != null) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="<%= pageDescription %>">
     <title><%= pageTitle %> | Socius</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css?v=home-width-1">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/discover.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/community.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/post.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.min.css?v=perf-1">
+    <% if (discoverPageHeader) { %>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/discover.min.css?v=perf-1">
+    <% } %>
+    <% if (communityPageHeader) { %>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/community.min.css?v=perf-1">
+    <% } %>
+    <% if (postPageHeader) { %>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/post.min.css?v=perf-1">
+    <% } %>
     <script>
         const CTX = '${pageContext.request.contextPath}';
     </script>
@@ -96,7 +130,7 @@ if (session != null && session.getAttribute("flashSuccess") != null) {
                         <span id="notificationCount" class="notification-count" hidden>0</span>
                     </a>
                     <details class="profile-menu">
-                        <summary class="topbar__account">
+                        <summary class="topbar__account" aria-label="Open profile menu">
                             <span class="material-symbols-outlined">account_circle</span>
                             <span><%= profileMenuLabel %></span>
                             <span class="material-symbols-outlined">expand_more</span>
